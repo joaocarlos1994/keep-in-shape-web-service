@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import br.com.keepinshape.domain.exercise.Exercise;
-import br.com.keepinshape.restapi.deserializer.ExerciseDeserialize;
+import br.com.keepinshape.restapi.deserializer.ExerciseJsonDeserialize;
 import br.com.keepinshape.restapi.serializer.ExerciseSerialize;
 
 /**
@@ -20,7 +20,7 @@ import br.com.keepinshape.restapi.serializer.ExerciseSerialize;
  * @author Joao Batista
  * @version 1.0 09/02/2017
  */
-@JsonDeserialize(using = ExerciseDeserialize.class)
+@JsonDeserialize(using = ExerciseJsonDeserialize.class)
 @JsonSerialize(using = ExerciseSerialize.class)
 public class ExerciseWrapper {
 	

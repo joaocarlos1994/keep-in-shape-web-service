@@ -11,12 +11,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -24,39 +24,51 @@ import org.hibernate.annotations.GenericGenerator;
 import br.com.keepinshape.domain.exercise.Exercise;
 
 /**
- * Class comments go here...
+ * A <code>Activity</code> representa uma
+ * atividade dentro do dominio, assim essa 
+ * atividade contem uma lista de exercicio
+ * e seu respectivo dia de execucao.
  *
  * @author Joao Batista
  * @version 1.0 06/02/2017
  */
 @Entity
-public class Activities {
+public class Activity {
 	
 	@Id
+	@Column(name = "id", columnDefinition = "serial")
 	@GeneratedValue(generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
 	private Long id;
+	
 	private final String name;
-	@OneToMany(mappedBy = "activities", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	
+	@ManyToMany(fetch = FetchType.EAGER)
 	private final List<Exercise> exercises;
+	
 	private Weekday weekday;
+	
 	@Transient
 	private double allPoints;
 	
-	private Activities(final String name, final Weekday weekday) {
+	private Activity(final String name) {
 		this.name = name;
-		this.weekday = weekday;
 		this.exercises = new ArrayList<>();
 	}
 	
-	public Activities valueOf(final String name, final Weekday weekday) {
-		final Activities activities = new Activities(name, weekday);
+	private Activity() {
+		this.name = null;
+		this.exercises = null;
+	}
+	
+	public static Activity valueOf(final String name) {
+		final Activity activities = new Activity(name);
 		return activities;
 	}
 	
 	public void addExercise(final Exercise exercise) {
 		if (exercise != null) {
-			this.addExercise(exercise);
+			this.exercises.add(exercise);
 		}
 	}
 	
@@ -74,7 +86,7 @@ public class Activities {
 	
 	public double totalPoints() {
 		double points = 0;
-		for (Exercise exercise : exercises) {
+		for (final Exercise exercise : exercises) {
 			points += exercise.getPoints();
 		}
 		return points;
@@ -83,6 +95,10 @@ public class Activities {
 	public Long getId() {
 		return id;
 	}
+	
+	public void setId(final Long id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;
@@ -90,6 +106,10 @@ public class Activities {
 
 	public Weekday getWeekday() {
 		return weekday;
+	}
+	
+	public void setWeekday(final Weekday weekday) {
+		this.weekday = weekday;
 	}
 
 	public List<Exercise> getExercises() {

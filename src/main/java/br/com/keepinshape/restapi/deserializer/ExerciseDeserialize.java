@@ -1,5 +1,5 @@
 /*
- * @(#)ExerciseDeserialize.java 1.0 09/02/2017
+ * @(#)ExerciseDeserialize.java 1.0 05/03/2017
  *
  * Copyright (c) 2017, Embraer. All rights reserved.
  * Embraer S/A proprietary/confidential. Use is subject to license terms.
@@ -9,39 +9,35 @@ package br.com.keepinshape.restapi.deserializer;
 
 import java.io.IOException;
 
-import com.fasterxml.jackson.core.JsonParser;
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import br.com.keepinshape.domain.exercise.Exercise;
-import br.com.keepinshape.restapi.wrapper.ExerciseWrapper;
 
 /**
  * Class comments go here...
  *
  * @author Joao Batista
- * @version 1.0 09/02/2017
+ * @version 1.0 05/03/2017
  */
-public class ExerciseDeserialize extends JsonDeserializer<ExerciseWrapper> {
+@Component
+public class ExerciseDeserialize extends AbstractDeserializer<Exercise> {
 
-	/** {@inheritDoc} */
 	@Override
-	public ExerciseWrapper deserialize(final JsonParser jsonParser, DeserializationContext deserializationContext)
+	public Exercise deserializeNode(final JsonNode jsonNode, DeserializationContext deserializationContext)
 			throws IOException, JsonProcessingException {
 		
-		final ObjectCodec oc = jsonParser.getCodec();
-		final JsonNode node = oc.readTree(jsonParser);
-		
-		final Exercise exercise = new Exercise.Builder(node.get("name").asText())
-										.weight(node.get("weight").asDouble())
-										.quantity(node.get("quantity").asInt())
-										.points(node.get("points").asDouble())
+		final Exercise exercise = new Exercise.Builder(jsonNode.get("name").asText())
+										.weight(jsonNode.get("weight").asDouble())
+										.quantity(jsonNode.get("quantity").asInt())
+										.points(jsonNode.get("points").asDouble())
 										.build();
+				exercise.setId(getId(jsonNode));
 		
-		return new ExerciseWrapper(exercise);
+		return exercise;
 	}
 
 }

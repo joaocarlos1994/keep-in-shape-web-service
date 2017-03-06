@@ -8,7 +8,8 @@
 package br.com.keepinshape.domain.activities;
 
 /**
- * Class comments go here...
+ * A <code>Weekday</code> representa os possiveis dias
+ * de que uma atividade pode ocorrer dentro da aplicacao.
  *
  * @author Joao Batista
  * @version 1.0 06/02/2017

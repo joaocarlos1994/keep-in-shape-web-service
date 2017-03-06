@@ -7,17 +7,22 @@
 
 package br.com.keepinshape.domain.exercise;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import br.com.keepinshape.domain.activities.Activities;
+import br.com.keepinshape.domain.activities.Activity;
 
 /**
- * Class comments go here...
+ * A <code>Exercise</code> representa um
+ * exercicio dentro da aplicacao.
  *
  * @author Joao Batista
  * @version 1.0 06/02/2017
@@ -26,31 +31,41 @@ import br.com.keepinshape.domain.activities.Activities;
 public class Exercise {
 	
 	@Id
+	@Column(name = "id", columnDefinition = "serial")
 	@GeneratedValue(generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
 	private Long id;
+	
 	private final String name;
+	
 	private double weight;
+	
 	private int quantity;
+	
 	private double points;
-	@ManyToOne
-	private Activities activities;
+	
+	@ManyToMany(mappedBy = "exercises")
+	private final List<Activity> activities;
 	
 	private Exercise(final Builder builder) {
-		this.id = builder.id;
 		this.name = builder.name;
 		this.weight = builder.weight;
 		this.quantity = builder.quantity;
 		this.points = builder.points;
+		this.activities = new ArrayList<>();
 	}
 	
 	private Exercise() {
 		this.name = null;
+		this.activities = null;
 	}
-	
 	
 	public Long getId() {
 		return id;
+	}
+
+	public void setId(final Long id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -68,25 +83,23 @@ public class Exercise {
 	public double getPoints() {
 		return points;
 	}
-
+	
+	public void addActivity(final Activity activity) {
+		if (activity != null) {
+			this.activities.add(activity);
+		}
+	}
 
 	public static class Builder {
 		
-		private Long id;
 		private final String name;
 		private double weight;
 		private int quantity;
 		private double points;
-		
+			
 		public Builder(final String name) {
 			this.name = name;
-		}
-		
-		public Builder id(final Long id) {
-			this.id = id;
-			return this;
-		}
-		
+		}		
 		
 		public Builder weight(final double weight) {
 			this.weight = weight;
@@ -134,7 +147,4 @@ public class Exercise {
 			return false;
 		return true;
 	}
-	
-	
-	
 }

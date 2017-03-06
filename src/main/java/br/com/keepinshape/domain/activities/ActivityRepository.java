@@ -11,12 +11,13 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 /**
- * Class comments go here...
+ * A <code>ActivityRepository</code> tem por responsabilidade
+ * recuperar objeto de dominicio da <code>Activities</code>.
  *
  * @author Joao Batista
  * @version 1.0 09/02/2017
  */
-@RepositoryRestResource(collectionResourceRel = "/activies", path = "/activies")
-public interface ActiviesRepository extends PagingAndSortingRepository<Activities, Long> {
+@RepositoryRestResource(collectionResourceRel = "/spring-data-activity", path = "/spring-data-activity")
+public interface ActivityRepository extends PagingAndSortingRepository<Activity, Long> {
 
 }

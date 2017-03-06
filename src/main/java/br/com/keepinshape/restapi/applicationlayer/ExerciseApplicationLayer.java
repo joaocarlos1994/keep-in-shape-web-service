@@ -10,7 +10,9 @@ package br.com.keepinshape.restapi.applicationlayer;
 import br.com.keepinshape.domain.exercise.Exercise;
 
 /**
- * Class comments go here...
+ * A <code>ExerciseApplicationLayer</code> tem por finalidade
+ * expor alguns metodo comuns para <code>Exercise</code>,
+ * como por exemplo save e deleteExercise.
  *
  * @author Joao Batista
  * @version 1.0 09/02/2017

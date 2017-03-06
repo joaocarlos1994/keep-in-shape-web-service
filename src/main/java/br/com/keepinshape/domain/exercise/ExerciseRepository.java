@@ -11,12 +11,14 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 /**
- * Class comments go here...
+ * A <code>ExerciseRepository</code> tem a responsabilidade
+ * de recurperar e persistir da entidade dominio da
+ * <code>Exercise</code>
  *
  * @author Joao Batista
  * @version 1.0 09/02/2017
  */
-@RepositoryRestResource(collectionResourceRel = "/exercise", path = "/exercise")
+@RepositoryRestResource(collectionResourceRel = "/spring-data-exercise", path = "/spring-data-exercise")
 public interface ExerciseRepository extends PagingAndSortingRepository<Exercise, Long> {
 
 }

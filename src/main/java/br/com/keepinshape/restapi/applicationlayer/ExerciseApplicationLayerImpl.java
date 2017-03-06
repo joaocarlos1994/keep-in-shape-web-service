@@ -8,18 +8,20 @@
 package br.com.keepinshape.restapi.applicationlayer;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import br.com.keepinshape.domain.exercise.Exercise;
 import br.com.keepinshape.domain.exercise.ExerciseRepository;
 
 /**
- * Class comments go here...
+ * A <code>ExerciseApplicationLayerImpl</code> implementa a
+ * <code>ExerciseApplicationLayerImpl</code> para fornecer
+ * pontos incomum para os recursos do webservice.
  *
  * @author Joao Batista
  * @version 1.0 09/02/2017
  */
-@Component
+@Repository
 public class ExerciseApplicationLayerImpl implements ExerciseApplicationLayer {
 
 	private final ExerciseRepository exerciseRepository;

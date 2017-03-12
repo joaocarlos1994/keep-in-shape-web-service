@@ -1,0 +1,1 @@
+INSERT INTO EXERCISE values (1, 'TESTE', 30, 3, 30);

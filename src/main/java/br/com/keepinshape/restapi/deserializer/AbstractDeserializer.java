@@ -16,7 +16,10 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 
 /**
- * Class comments go here...
+ * A <code>AbstractDeserializer</code> tem por
+ * objetivo conter metodos comum a todos deserializer
+ * fornecendo assim uma pequena API para suas
+ * subclasses.
  *
  * @author Joao Batista
  * @version 1.0 05/03/2017
@@ -40,4 +43,24 @@ public abstract class AbstractDeserializer<T> extends JsonDeserializer<T> {
 		return null;
 	}
 	
+	protected Double getDouble(final String field, final JsonNode node) {
+		if (node.has(field)) {
+			return node.get(field).asDouble();
+		}
+		return null;
+	}
+	
+	protected String getString(final String field, final JsonNode node) {
+		if (node.has(field)) {
+			return node.get(field).textValue();
+		}
+		return null;
+	}
+	
+	protected Integer getInt(final String field, final JsonNode node) {
+		if (node.has(field)) {
+			return node.get(field).asInt();
+		}
+		return null;
+	}
 }

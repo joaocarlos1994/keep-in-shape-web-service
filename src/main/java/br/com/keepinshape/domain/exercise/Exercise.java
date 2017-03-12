@@ -15,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -36,6 +37,7 @@ public class Exercise {
 	@GenericGenerator(name = "increment", strategy = "increment")
 	private Long id;
 	
+	@NotNull
 	private final String name;
 	
 	private double weight;
@@ -98,6 +100,9 @@ public class Exercise {
 		private double points;
 			
 		public Builder(final String name) {
+			if (name == null) {
+				throw new NullPointerException("Name is null");
+			}
 			this.name = name;
 		}		
 		
@@ -119,8 +124,7 @@ public class Exercise {
 		
 		public Exercise build() {
 			return new Exercise(this);
-		}
-		
+		}	
 	}
 
 	@Override

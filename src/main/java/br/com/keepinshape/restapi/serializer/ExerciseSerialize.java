@@ -9,33 +9,37 @@ package br.com.keepinshape.restapi.serializer;
 
 import java.io.IOException;
 
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
-import br.com.keepinshape.restapi.wrapper.ExerciseWrapper;
+import br.com.keepinshape.domain.exercise.Exercise;
 
 /**
- * Class comments go here...
+ * A <code>ExerciseSerialize</code> tem por responsabilidade
+ * serializar um objeto da <code>Exercise</code> em objeto
+ * json.
  *
  * @author Joao Batista
  * @version 1.0 09/02/2017
  */
-public class ExerciseSerialize extends JsonSerializer<ExerciseWrapper> {
+@Component
+public class ExerciseSerialize extends JsonSerializer<Exercise> {
 
 	@Override
-	public void serialize(final ExerciseWrapper exerciseWrapper, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
+	public void serialize(final Exercise exercise, final JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
 			throws IOException, JsonProcessingException {
 		
 		jsonGenerator.writeStartObject();
-		jsonGenerator.writeNumberField("id", exerciseWrapper.getId());
-		jsonGenerator.writeStringField("name", exerciseWrapper.getName());
-		jsonGenerator.writeNumberField("weight", exerciseWrapper.getWeight());
-		jsonGenerator.writeNumberField("quantity", exerciseWrapper.getQuantity());
-		jsonGenerator.writeNumberField("points", exerciseWrapper.getPoints());
+		jsonGenerator.writeNumberField("id", exercise.getId());
+		jsonGenerator.writeStringField("name", exercise.getName());
+		jsonGenerator.writeNumberField("weight", exercise.getWeight());
+		jsonGenerator.writeNumberField("quantity", exercise.getQuantity());
+		jsonGenerator.writeNumberField("points", exercise.getPoints());
 		jsonGenerator.writeEndObject();
 		
 	}
-
 }

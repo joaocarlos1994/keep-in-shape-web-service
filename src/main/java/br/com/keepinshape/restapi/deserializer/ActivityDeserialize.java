@@ -25,7 +25,11 @@ import br.com.keepinshape.domain.exercise.Exercise;
 import br.com.keepinshape.restapi.wrapper.ActivityWrapper;
 
 /**
- * Class comments go here...
+ * A <code>ActivityDeserialize</code> tem por objetivo
+ * deserializar um objeto que representa um objeto
+ * da <code>ActivityDeserialize</code>, ela recebe em
+ * seu construtor a <code>ExerciseListDeserialize</code>
+ * para realizar a deserializacao da <code>Exercise</code>.
  *
  * @author Joao Batista
  * @version 1.0 05/03/2017

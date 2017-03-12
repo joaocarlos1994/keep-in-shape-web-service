@@ -23,7 +23,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import br.com.keepinshape.domain.exercise.Exercise;
 
 /**
- * Class comments go here...
+ * A <code>ExerciseListDeserialize</code> tem por
+ * objetivo serializar um lista da <code>Exercise</code>
+ * para ser devolvida ao front-end.
  *
  * @author Joao Batista
  * @version 1.0 05/03/2017

@@ -17,7 +17,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  * @author Joao Batista
  * @version 1.0 09/02/2017
  */
-@RepositoryRestResource(collectionResourceRel = "/spring-data-activity", path = "/spring-data-activity")
+@RepositoryRestResource(collectionResourceRel = "/springDataActivity", path = "/springDataActivity")
 public interface ActivityRepository extends PagingAndSortingRepository<Activity, Long> {
 
 }

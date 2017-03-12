@@ -10,7 +10,9 @@ package br.com.keepinshape.restapi.applicationlayer;
 import br.com.keepinshape.domain.activities.Activity;
 
 /**
- * Class comments go here...
+ * A <code>ActivityApplicationLayer</code> contem
+ * metodos incomum da <code>ActivityApplicationLayerImpl</code>
+ * cujo o objetivo e promover uma maior abstracao.
  *
  * @author Joao Batista
  * @version 1.0 05/03/2017
@@ -18,6 +20,7 @@ import br.com.keepinshape.domain.activities.Activity;
 public interface ActivityApplicationLayer {
 	
 	public Activity saveActivity(final Activity activity);
+	public Activity findById(final Long id);
 	public void delteExercise(final Long idactivity);
 	
 }

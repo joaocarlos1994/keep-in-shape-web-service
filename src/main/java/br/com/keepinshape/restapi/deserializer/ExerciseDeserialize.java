@@ -18,7 +18,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import br.com.keepinshape.domain.exercise.Exercise;
 
 /**
- * Class comments go here...
+ * A <code>ExerciseDeserialize</code> tem por objetivo
+ * deserializar um objeto json que representa a 
+ * <code>Exercise</code>.
  *
  * @author Joao Batista
  * @version 1.0 05/03/2017
@@ -30,10 +32,10 @@ public class ExerciseDeserialize extends AbstractDeserializer<Exercise> {
 	public Exercise deserializeNode(final JsonNode jsonNode, DeserializationContext deserializationContext)
 			throws IOException, JsonProcessingException {
 		
-		final Exercise exercise = new Exercise.Builder(jsonNode.get("name").asText())
-										.weight(jsonNode.get("weight").asDouble())
-										.quantity(jsonNode.get("quantity").asInt())
-										.points(jsonNode.get("points").asDouble())
+		final Exercise exercise = new Exercise.Builder(getString("name", jsonNode))
+										.weight(getDouble("weight", jsonNode))
+										.quantity(getInt("quantity", jsonNode))
+										.points(getDouble("points", jsonNode))
 										.build();
 				exercise.setId(getId(jsonNode));
 		

@@ -18,7 +18,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  * @author Joao Batista
  * @version 1.0 09/02/2017
  */
-@RepositoryRestResource(collectionResourceRel = "/spring-data-exercise", path = "/spring-data-exercise")
+@RepositoryRestResource(collectionResourceRel = "/springDataExercise", path = "/springDataExercise")
 public interface ExerciseRepository extends PagingAndSortingRepository<Exercise, Long> {
 
 }

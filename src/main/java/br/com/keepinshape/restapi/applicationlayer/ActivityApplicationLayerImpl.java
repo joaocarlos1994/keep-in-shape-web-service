@@ -14,7 +14,9 @@ import br.com.keepinshape.domain.activities.Activity;
 import br.com.keepinshape.domain.activities.ActivityRepository;
 
 /**
- * Class comments go here...
+ * A <code>ActivityApplicationLayerImpl</code> tem por
+ * objetivo fornecer metodos comum para infraestrutura 
+ * de banco de dados.
  *
  * @author Joao Batista
  * @version 1.0 05/03/2017
@@ -34,6 +36,14 @@ public class ActivityApplicationLayerImpl implements ActivityApplicationLayer {
 	public Activity saveActivity(final Activity activity) {
 		if (activity != null) {
 			return activityRepository.save(activity);
+		}
+		return null;
+	}
+	
+	@Override
+	public Activity findById(final Long id) {
+		if (id != null && id.longValue() > 0) {
+			return activityRepository.findOne(id);
 		}
 		return null;
 	}

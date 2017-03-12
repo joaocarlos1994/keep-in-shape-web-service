@@ -22,7 +22,11 @@ import br.com.keepinshape.domain.exercise.Exercise;
 import br.com.keepinshape.restapi.wrapper.ExerciseWrapper;
 
 /**
- * Class comments go here...
+ * A <code>ExerciseJsonDeserialize</code> e um objeto 
+ * de valor utilizado pela <code>ExerciseWrapper</code>
+ * e tem por objetivo deserializar um objeto de
+ * <code>Exercise</code> ela recebe em seu construto a
+ * <code>exerciseDeserialize</code> que tem a mesma funcao.
  *
  * @author Joao Batista
  * @version 1.0 09/02/2017

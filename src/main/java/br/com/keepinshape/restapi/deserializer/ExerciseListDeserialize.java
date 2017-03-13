@@ -16,7 +16,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -42,7 +41,7 @@ public class ExerciseListDeserialize extends AbstractDeserializer<List<Exercise>
 
 	@Override
 	public List<Exercise> deserializeNode(final JsonNode jsonNode, final DeserializationContext deserializationContext)
-			throws IOException, JsonProcessingException {
+			throws IOException {
 		
 		final List<Exercise> exercises = new ArrayList<>();
 		

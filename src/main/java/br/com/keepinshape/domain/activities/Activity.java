@@ -18,7 +18,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -42,7 +41,6 @@ public class Activity {
 	@GenericGenerator(name = "increment", strategy = "increment")
 	private Long id;
 	
-	@NotNull
 	private final String name;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -77,12 +75,6 @@ public class Activity {
 	public void removeExercise(final Exercise exercise) {
 		if (exercise != null) {
 			this.exercises.remove(exercise);
-		}
-	}
-	
-	public void changeWeekDay(final Weekday weekday) {
-		if (weekday != null) {
-			this.weekday = weekday;
 		}
 	}
 	

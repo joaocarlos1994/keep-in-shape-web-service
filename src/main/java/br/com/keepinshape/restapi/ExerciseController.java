@@ -45,13 +45,13 @@ public class ExerciseController {
 	@PostMapping(value = "/exercise")
 	public ResponseEntity<ExerciseWrapper> save(@RequestBody final ExerciseWrapper exerciseWrapper) {
 		final Exercise saveExercise = exerciseApplicationLayer.saveExercise(exerciseWrapper.getExercise());
-		return new ResponseEntity<ExerciseWrapper>(new ExerciseWrapper(saveExercise), HttpStatus.CREATED);
+		return new ResponseEntity<>(new ExerciseWrapper(saveExercise), HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping(value = "/exercise/{id}")
 	public ResponseEntity<ExerciseWrapper> delete(@PathVariable("id") final Long idExercise) {
 		exerciseApplicationLayer.delteExercise(idExercise);
-		return new ResponseEntity<ExerciseWrapper>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 }

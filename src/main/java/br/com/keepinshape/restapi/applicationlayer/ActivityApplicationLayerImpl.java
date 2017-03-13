@@ -49,9 +49,11 @@ public class ActivityApplicationLayerImpl implements ActivityApplicationLayer {
 	}
 
 	@Override
-	public void delteExercise(final Long idActivity) {
+	public void delteActivity(final Long idActivity) {
 		if (idActivity != null && idActivity.longValue() > 0L) {
 			activityRepository.delete(idActivity);
+		} else {
+			throw new IllegalArgumentException("Id is invalid");
 		}
 	}
 }

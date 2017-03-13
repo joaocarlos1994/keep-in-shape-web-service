@@ -11,7 +11,6 @@ import java.io.IOException;
 
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -30,7 +29,7 @@ public class ExerciseDeserialize extends AbstractDeserializer<Exercise> {
 
 	@Override
 	public Exercise deserializeNode(final JsonNode jsonNode, DeserializationContext deserializationContext)
-			throws IOException, JsonProcessingException {
+			throws IOException {
 		
 		final Exercise exercise = new Exercise.Builder(getString("name", jsonNode))
 										.weight(getDouble("weight", jsonNode))

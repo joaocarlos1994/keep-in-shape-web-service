@@ -15,7 +15,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -37,7 +36,6 @@ public class Exercise {
 	@GenericGenerator(name = "increment", strategy = "increment")
 	private Long id;
 	
-	@NotNull
 	private final String name;
 	
 	private double weight;

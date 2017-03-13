@@ -10,7 +10,6 @@ package br.com.keepinshape.restapi.deserializer;
 import java.io.IOException;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -26,13 +25,13 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public abstract class AbstractDeserializer<T> extends JsonDeserializer<T> {
 	
-	public T deserializeNode(final JsonNode jsonNode, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+	public T deserializeNode(final JsonNode jsonNode, DeserializationContext deserializationContext) throws IOException {
 		return null;
 		
 	}
 	
 	@Override
-	public T deserialize(final JsonParser jsonParser, final DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+	public T deserialize(final JsonParser jsonParser, final DeserializationContext deserializationContext) throws IOException {
 		return null;
 	}
 	

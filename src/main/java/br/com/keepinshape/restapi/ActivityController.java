@@ -44,19 +44,19 @@ public class ActivityController {
 	}
 	
 	@PostMapping(value = "/activity")
-	public ResponseEntity<?> save(@RequestBody final ActivityWrapper activityWrapper) {
-		activityApplicationLayer.saveActivity(activityWrapper.getActivity());
-		return new ResponseEntity<>(HttpStatus.CREATED);
+	public ResponseEntity<ActivityWrapper> save(@RequestBody final ActivityWrapper activityWrapper) {
+		final Activity activity = activityApplicationLayer.saveActivity(activityWrapper.getActivity());
+		return new ResponseEntity<>(new ActivityWrapper(activity), HttpStatus.CREATED);
 	}
 	
 	@GetMapping(value = "/activity/{id}")
-	public ResponseEntity<?> get(@PathVariable("id") final Long id) {
-		return new ResponseEntity<ActivityWrapper>(new ActivityWrapper(activityApplicationLayer.findById(id)), HttpStatus.OK);
+	public ResponseEntity<ActivityWrapper> get(@PathVariable("id") final Long id) {
+		return new ResponseEntity<>(new ActivityWrapper(activityApplicationLayer.findById(id)), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value = "/activity/{id}")
-	public ResponseEntity<Activity> delete(@PathVariable("id") final Long id) {
-		activityApplicationLayer.delteExercise(id);
-		return new ResponseEntity<Activity>(HttpStatus.OK);
+	public ResponseEntity<ActivityWrapper> delete(@PathVariable("id") final Long id) {
+		activityApplicationLayer.delteActivity(id);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

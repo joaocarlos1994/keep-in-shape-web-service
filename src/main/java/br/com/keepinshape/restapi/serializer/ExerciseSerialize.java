@@ -12,7 +12,6 @@ import java.io.IOException;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
@@ -31,7 +30,7 @@ public class ExerciseSerialize extends JsonSerializer<Exercise> {
 
 	@Override
 	public void serialize(final Exercise exercise, final JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
-			throws IOException, JsonProcessingException {
+			throws IOException {
 		
 		jsonGenerator.writeStartObject();
 		jsonGenerator.writeNumberField("id", exercise.getId());

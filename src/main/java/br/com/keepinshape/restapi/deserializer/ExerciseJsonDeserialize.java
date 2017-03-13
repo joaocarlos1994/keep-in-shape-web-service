@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -43,7 +42,7 @@ public class ExerciseJsonDeserialize extends AbstractDeserializer<ExerciseWrappe
 
 	@Override
 	public ExerciseWrapper deserialize(final JsonParser jsonParser, final DeserializationContext deserializationContext)
-			throws IOException, JsonProcessingException {
+			throws IOException {
 		
 		final ObjectCodec oc = jsonParser.getCodec();
 		final JsonNode node = oc.readTree(jsonParser);

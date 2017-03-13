@@ -34,13 +34,16 @@ public class ExerciseApplicationLayerImpl implements ExerciseApplicationLayer {
 
 	@Override
 	public Exercise saveExercise(final Exercise exercise) {
-		final Exercise saveExercise = exerciseRepository.save(exercise);
-		return saveExercise;
+		return exerciseRepository.save(exercise);
 	}
 
 	@Override
 	public void delteExercise(final Long idExercise) {
-		exerciseRepository.delete(idExercise);
+		if (idExercise.longValue() > 0L) {
+			exerciseRepository.delete(idExercise);
+		} else {
+			throw new IllegalArgumentException("Id is invalid");
+		}
 	}
 
 }

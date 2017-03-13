@@ -12,9 +12,9 @@ create table activity (
 	weekday VARCHAR(30)
 );
 
-create table activity_exercises (
+create table activity_exercise (
 	activities_id INTEGER,
-	exercices_id INTEGER,
-	constraint fk_activities foreign key (activities_id) references exercise(id),
-	constraint fk_exercices foreign key (exercices_id) references activity(id)
+	exercises_id INTEGER,
+	constraint fk_activities foreign key (activities_id) references activity(id),
+	constraint fk_exercices foreign key (exercises_id) references exercise(id)
 );

@@ -5,7 +5,7 @@
  * Embraer S/A proprietary/confidential. Use is subject to license terms.
  */
 
-package br.com.keepinshape.restapi.applicationlayer;
+package br.com.keepinshape.applicationlayer;
 
 import br.com.keepinshape.domain.activities.Activity;
 

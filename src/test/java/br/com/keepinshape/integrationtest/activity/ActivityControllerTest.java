@@ -5,7 +5,7 @@
  * Embraer S/A proprietary/confidential. Use is subject to license terms.
  */
 
-package br.com.keepinshape.activity;
+package br.com.keepinshape.integrationtest.activity;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -30,7 +30,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import br.com.keepinshape.KeepinshapeWebserviceApplication;
-import br.com.keepinshape.config.DbEnvironment;
+import br.com.keepinshape.config.DbEnvironmentIntegrationTest;
 import br.com.keepinshape.domain.activities.Activity;
 import br.com.keepinshape.domain.activities.Weekday;
 import br.com.keepinshape.domain.exercise.Exercise;
@@ -43,7 +43,7 @@ import br.com.keepinshape.util.JsonUtils;
  * @version 1.0 12/03/2017
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {KeepinshapeWebserviceApplication.class, DbEnvironment.class})
+@SpringBootTest(classes = {KeepinshapeWebserviceApplication.class, DbEnvironmentIntegrationTest.class})
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class ActivityControllerTest {
 	

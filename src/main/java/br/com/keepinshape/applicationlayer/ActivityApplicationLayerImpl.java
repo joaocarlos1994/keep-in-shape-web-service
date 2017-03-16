@@ -5,7 +5,7 @@
  * Embraer S/A proprietary/confidential. Use is subject to license terms.
  */
 
-package br.com.keepinshape.restapi.applicationlayer;
+package br.com.keepinshape.applicationlayer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

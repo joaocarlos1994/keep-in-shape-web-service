@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.keepinshape.applicationlayer.ExerciseApplicationLayer;
 import br.com.keepinshape.domain.exercise.Exercise;
-import br.com.keepinshape.restapi.applicationlayer.ExerciseApplicationLayer;
 import br.com.keepinshape.restapi.wrapper.ExerciseWrapper;
 
 /**

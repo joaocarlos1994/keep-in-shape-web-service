@@ -1,5 +1,5 @@
 /*
- * @(#)DbEnvironment.java 1.0 07/03/2017
+ * @(#)AbstractDbEnvironment.java 1.0 15/03/2017
  *
  * Copyright (c) 2017, Embraer. All rights reserved.
  * Embraer S/A proprietary/confidential. Use is subject to license terms.
@@ -12,8 +12,6 @@ import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -27,11 +25,12 @@ import br.com.keepinshape.domain.exercise.ExerciseRepository;
  * Class comments go here...
  *
  * @author Joao Batista
- * @version 1.0 07/03/2017
+ * @version 1.0 15/03/2017
  */
 @Configuration
-@EnableJpaRepositories(basePackageClasses = {ActivityRepository.class, ExerciseRepository.class})
-public class DbEnvironment {
+@EnableJpaRepositories(basePackageClasses = { ActivityRepository.class, ExerciseRepository.class })
+public abstract class AbstractDbEnvironment {
+
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory(final DataSource dataSource,
 			final JpaVendorAdapter jpaVendorAdapter) {
@@ -43,12 +42,7 @@ public class DbEnvironment {
 	}
 
 	@Bean
-	public DataSource getDataSource() {
-		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL)
-				.addScript("scripts/create-db.sql")
-				.addScript("scripts/insert-keep-in-shape.sql")
-				.build();
-	}
+	public abstract DataSource getDataSource();
 
 	@Bean
 	public JpaVendorAdapter jpaVendorAdapter() {
@@ -62,6 +56,7 @@ public class DbEnvironment {
 
 	@Bean
 	public JpaTransactionManager transactionManager() {
-		return new JpaTransactionManager(); // does this need an emf???
+		return new JpaTransactionManager();
 	}
+
 }

@@ -50,7 +50,7 @@ public class ExerciseController {
 	
 	@DeleteMapping(value = "/exercise/{id}")
 	public ResponseEntity<ExerciseWrapper> delete(@PathVariable("id") final Long idExercise) {
-		exerciseApplicationLayer.delteExercise(idExercise);
+		exerciseApplicationLayer.deleteExercise(idExercise);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	

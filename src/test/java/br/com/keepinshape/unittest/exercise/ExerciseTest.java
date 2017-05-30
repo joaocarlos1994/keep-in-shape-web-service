@@ -7,12 +7,14 @@
 
 package br.com.keepinshape.unittest.exercise;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import br.com.keepinshape.config.UnitTest;
 import br.com.keepinshape.domain.activities.Activity;
 import br.com.keepinshape.domain.activities.Weekday;
 import br.com.keepinshape.domain.exercise.Exercise;
@@ -24,6 +26,7 @@ import br.com.keepinshape.domain.exercise.Exercise;
  * @version 1.0 15/03/2017
  */
 @RunWith(SpringRunner.class)
+@Category(UnitTest.class)
 public class ExerciseTest {
 	
 	@Test
@@ -31,16 +34,34 @@ public class ExerciseTest {
 		
 		final Exercise exercise = new Exercise.Builder("Supino Test").weight(50).quantity(2).points(70).build();
 		
-        assertThat("Supino Test").isEqualTo(exercise.getName());
-        assertThat(50d).isEqualTo(exercise.getWeight());
-        assertThat(2).isEqualTo(exercise.getQuantity());
-        assertThat(70d).isEqualTo(exercise.getPoints());
+		assertEquals("Supino Test", exercise.getName());
+		assertEquals(50, exercise.getWeight(), 0);
+		assertEquals(2, exercise.getQuantity(), 0);
+		assertEquals(70, exercise.getPoints(), 0);
 	}
 	
 	@Test(expected = NullPointerException.class)
-	public void testCreateExerciseIncosistData() {	
+	public void testCreateExerciseWithNameInconsistent() {	
 		@SuppressWarnings("unused")
 		final Exercise exercise = new Exercise.Builder(null).weight(50).quantity(2).points(70).build();
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testCreateExerciseWithWeightInconsistent() {	
+		@SuppressWarnings("unused")
+		final Exercise exercise = new Exercise.Builder("Supino").weight(-1).quantity(2).points(70).build();
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testCreateExerciseWithQuantityInconsistent() {	
+		@SuppressWarnings("unused")
+		final Exercise exercise = new Exercise.Builder("Supino").weight(50).quantity(-1).points(70).build();
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testCreateExerciseWithPointsInconsistent() {	
+		@SuppressWarnings("unused")
+		final Exercise exercise = new Exercise.Builder("Supino").weight(50).quantity(2).points(-1).build();
 	}
 	
 	@Test
@@ -52,10 +73,16 @@ public class ExerciseTest {
 		final Exercise exercise = new Exercise.Builder("Supino Test").weight(50).quantity(2).points(70).build();
 		exercise.addActivity(actvity);
 		
-		assertThat("Supino Test").isEqualTo(exercise.getName());
-        assertThat(50d).isEqualTo(exercise.getWeight());
-        assertThat(2).isEqualTo(exercise.getQuantity());
-        assertThat(70d).isEqualTo(exercise.getPoints());
+		assertEquals("Supino Test", exercise.getName());
+		assertEquals(50, exercise.getWeight(), 0);
+		assertEquals(2, exercise.getQuantity(), 0);
+		assertEquals(70, exercise.getPoints(), 0);
 	}
 	
+	@Test(expected = NullPointerException.class)
+	public void testCreateExerciseWithActivityNull() {
+		
+		final Exercise exercise = new Exercise.Builder("Supino Test").weight(50).quantity(2).points(70).build();
+		exercise.addActivity(null);
+	}
 }

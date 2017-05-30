@@ -8,10 +8,12 @@
 package br.com.keepinshape.applicationlayer;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import br.com.keepinshape.domain.activities.Activity;
 import br.com.keepinshape.domain.activities.ActivityRepository;
+import br.com.keepinshape.domain.exercise.Exercise;
+import br.com.keepinshape.domain.exercise.ExerciseRepository;
 
 /**
  * A <code>ActivityApplicationLayerImpl</code> tem por
@@ -21,15 +23,18 @@ import br.com.keepinshape.domain.activities.ActivityRepository;
  * @author Joao Batista
  * @version 1.0 05/03/2017
  */
-@Repository
+@Component
 public class ActivityApplicationLayerImpl implements ActivityApplicationLayer {
 	
 	private final ActivityRepository activityRepository;
+	private final ExerciseRepository exerciseRepository;
 	
 	@Autowired
-	public ActivityApplicationLayerImpl(final ActivityRepository activityRepository) {
+	public ActivityApplicationLayerImpl(final ActivityRepository activityRepository,
+										final ExerciseRepository exerciseRepository) {
 		super();
 		this.activityRepository = activityRepository;
+		this.exerciseRepository = exerciseRepository;
 	}
 
 	@Override
@@ -55,5 +60,13 @@ public class ActivityApplicationLayerImpl implements ActivityApplicationLayer {
 		} else {
 			throw new IllegalArgumentException("Id is invalid");
 		}
+	}
+
+	@Override
+	public void delteActivityExercise(final Long id, final Long idExercise) {
+		final Exercise exerciseExclued = exerciseRepository.findOne(idExercise);
+		final Activity activity = findById(id);
+		activity.removeExercise(exerciseExclued);
+		activityRepository.save(activity);
 	}
 }

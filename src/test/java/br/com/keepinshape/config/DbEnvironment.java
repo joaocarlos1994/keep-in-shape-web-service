@@ -12,6 +12,8 @@ import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -29,7 +31,7 @@ import br.com.keepinshape.domain.exercise.ExerciseRepository;
  */
 @Configuration
 @EnableJpaRepositories(basePackageClasses = { ActivityRepository.class, ExerciseRepository.class })
-public abstract class AbstractDbEnvironment {
+public class DbEnvironment {
 
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory(final DataSource dataSource,
@@ -42,7 +44,12 @@ public abstract class AbstractDbEnvironment {
 	}
 
 	@Bean
-	public abstract DataSource getDataSource();
+	public DataSource getDataSource() {
+		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL)
+				.addScript("scripts/create-db.sql")
+				.addScript("scripts/integration-test-insert-keep-in-shape.sql")
+				.build();
+	}
 
 	@Bean
 	public JpaVendorAdapter jpaVendorAdapter() {
@@ -58,5 +65,4 @@ public abstract class AbstractDbEnvironment {
 	public JpaTransactionManager transactionManager() {
 		return new JpaTransactionManager();
 	}
-
 }

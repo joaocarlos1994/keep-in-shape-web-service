@@ -59,4 +59,10 @@ public class ActivityController {
 		activityApplicationLayer.delteActivity(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	@DeleteMapping(value = "/activity/{id}/exercise/{idExercise}")
+	public ResponseEntity<ActivityWrapper> deleteExercise(@PathVariable("id") final Long id, @PathVariable("idExercise") final Long idExercise) {
+		activityApplicationLayer.delteActivityExercise(id, idExercise);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }

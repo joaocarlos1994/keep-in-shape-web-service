@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,7 +29,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import br.com.keepinshape.KeepinshapeWebserviceApplication;
-import br.com.keepinshape.config.DbEnvironmentIntegrationTest;
+import br.com.keepinshape.config.DbEnvironment;
+import br.com.keepinshape.config.IntegrationTest;
 import br.com.keepinshape.domain.exercise.Exercise;
 import br.com.keepinshape.util.JsonUtils;
 
@@ -39,8 +41,9 @@ import br.com.keepinshape.util.JsonUtils;
  * @version 1.0 07/03/2017
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {KeepinshapeWebserviceApplication.class, DbEnvironmentIntegrationTest.class})
+@SpringBootTest(classes = {KeepinshapeWebserviceApplication.class, DbEnvironment.class})
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
+@Category(IntegrationTest.class)
 public class ExerciseControllerTest {
 
 	@Autowired

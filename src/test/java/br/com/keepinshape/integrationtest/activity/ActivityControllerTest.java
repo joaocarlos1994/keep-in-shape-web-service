@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,7 +31,8 @@ import org.springframework.web.context.WebApplicationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import br.com.keepinshape.KeepinshapeWebserviceApplication;
-import br.com.keepinshape.config.DbEnvironmentIntegrationTest;
+import br.com.keepinshape.config.DbEnvironment;
+import br.com.keepinshape.config.IntegrationTest;
 import br.com.keepinshape.domain.activities.Activity;
 import br.com.keepinshape.domain.activities.Weekday;
 import br.com.keepinshape.domain.exercise.Exercise;
@@ -43,8 +45,9 @@ import br.com.keepinshape.util.JsonUtils;
  * @version 1.0 12/03/2017
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {KeepinshapeWebserviceApplication.class, DbEnvironmentIntegrationTest.class})
+@SpringBootTest(classes = {KeepinshapeWebserviceApplication.class, DbEnvironment.class})
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
+@Category(IntegrationTest.class)
 public class ActivityControllerTest {
 	
 	@Autowired
@@ -59,11 +62,13 @@ public class ActivityControllerTest {
 	
 	@Test
 	public void testPostNewActivityNothingExercise() throws Exception {
-		final Activity newActvity = Activity.valueOf("Test Save");
+		final Activity newActvity = Activity.valueOf("Test Save Without Exercise");
 		newActvity.setWeekday(Weekday.SEGUNDA);
-		this.mockMvc.perform(post("/rest/activity").content(JsonUtils.convertObjectToJson(newActvity)).contentType(MediaType.APPLICATION_JSON_VALUE));
-		final String result = this.mockMvc.perform(get("/springDataActivity/4")).andReturn().getResponse().getContentAsString();
+		final String response = this.mockMvc.perform(post("/rest/activity").content(JsonUtils.convertObjectToJson(newActvity)).contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn().getResponse().getContentAsString();
+		final Long id = JsonUtils.getNode(response, "id").asLong();
+		final String result = this.mockMvc.perform(get("/springDataActivity/" + id)).andReturn().getResponse().getContentAsString();
 		
+		assertEquals(newActvity.getName(), JsonUtils.getNode(result, "name").asText());
 		assertEquals(newActvity.getName(), JsonUtils.getNode(result, "name").asText());
 		assertEquals(newActvity.getWeekday().name(), JsonUtils.getNode(result, "weekday").asText());
 	}
@@ -71,8 +76,9 @@ public class ActivityControllerTest {
 	@Test
 	public void testPostExistsActivityNothingExercise() throws Exception {
 		final Activity newActvity = Activity.valueOf("TESTE ACTIVITY");
-		newActvity.setWeekday(Weekday.TERÇA);
 		newActvity.setId(new Long(1L));
+		newActvity.setWeekday(Weekday.TERÇA);
+		
 		
 		this.mockMvc.perform(post("/rest/activity").content(JsonUtils.convertObjectToJson(newActvity)).contentType(MediaType.APPLICATION_JSON_VALUE));
 		final String result = this.mockMvc.perform(get("/springDataActivity/1")).andReturn().getResponse().getContentAsString();
@@ -87,12 +93,13 @@ public class ActivityControllerTest {
 		final Exercise exercise = new Exercise.Builder("TESTE").weight(30).quantity(3).points(30).build();
 		exercise.setId(new Long(1L));
 		
-		final Activity newActvity = Activity.valueOf("Test Save");
-		newActvity.setWeekday(Weekday.SEGUNDA);
+		final Activity newActvity = Activity.valueOf("Test Save with exercise");
+		newActvity.setWeekday(Weekday.SEXTA);
 		newActvity.addExercise(exercise);
 		
-		this.mockMvc.perform(post("/rest/activity").content(JsonUtils.convertObjectToJson(newActvity)).contentType(MediaType.APPLICATION_JSON_VALUE));
-		final String result = this.mockMvc.perform(get("/rest/activity/4")).andReturn().getResponse().getContentAsString();
+		final String response = this.mockMvc.perform(post("/rest/activity").content(JsonUtils.convertObjectToJson(newActvity)).contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn().getResponse().getContentAsString();
+		final Long id = JsonUtils.getNode(response, "id").asLong();
+		final String result = this.mockMvc.perform(get("/rest/activity/" + id)).andReturn().getResponse().getContentAsString();
 		final JsonNode exerciseNodeArray = JsonUtils.getNode(result, "exercices");
 		final JsonNode exerciseNode = exerciseNodeArray.get(0);
 		
@@ -115,11 +122,11 @@ public class ActivityControllerTest {
 		final Exercise exercise2 = new Exercise.Builder("TESTE UPDATE").weight(40).quantity(2).points(50).build();
 		exercise2.setId(new Long(2L));
 		
-		final Activity actvity = Activity.valueOf("TESTE ACTIVITY");
+		final Activity actvity = Activity.valueOf("TESTE ACTIVITY EXERCISE");
+		actvity.setId(new Long(2L));
 		actvity.setWeekday(Weekday.TERÇA);
 		actvity.addExercise(exercise);
 		actvity.addExercise(exercise2);
-		actvity.setId(new Long(2L));
 		
 		
 		this.mockMvc.perform(post("/rest/activity").content(JsonUtils.convertObjectToJson(actvity)).contentType(MediaType.APPLICATION_JSON_VALUE));
@@ -148,22 +155,13 @@ public class ActivityControllerTest {
 	@Test
 	public void testPostExistActivityWithExerciseAndRemoveExercise() throws Exception {
 		
-		final Exercise exercise = new Exercise.Builder("TESTE").weight(30).quantity(3).points(30).build();
-		exercise.setId(new Long(1L));
-		
-		final Activity actvity = Activity.valueOf("TESTE ACTIVITY");
-		actvity.setWeekday(Weekday.TERÇA);
-		actvity.removeExercise(exercise);
-		actvity.setId(new Long(2L));
-		
-		
-		this.mockMvc.perform(post("/rest/activity").content(JsonUtils.convertObjectToJson(actvity)).contentType(MediaType.APPLICATION_JSON_VALUE));
-		final String result = this.mockMvc.perform(get("/rest/activity/2")).andReturn().getResponse().getContentAsString();
+		this.mockMvc.perform(delete("/rest/activity/4/exercise/1")).andReturn();
+		final String result = this.mockMvc.perform(get("/rest/activity/4")).andReturn().getResponse().getContentAsString();
 		final JsonNode exerciseNodeArray = JsonUtils.getNode(result, "exercices");
 		
-		assertEquals(actvity.getName(), JsonUtils.getNode(result, "name").asText());
-		assertEquals(actvity.getWeekday().name(), JsonUtils.getNode(result, "weekDay").asText());
-		assertEquals(actvity.totalPoints(), 0, 0);
+		assertEquals("TESTE ACTIVITY EXERCISE DELETE", JsonUtils.getNode(result, "name").asText());
+		assertEquals("SEGUNDA", JsonUtils.getNode(result, "weekDay").asText());
+		assertEquals(0, 0, 0);
 		assertEquals(0, exerciseNodeArray.size(), 0);
 	}
 	

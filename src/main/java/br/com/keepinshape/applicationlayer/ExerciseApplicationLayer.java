@@ -20,6 +20,6 @@ import br.com.keepinshape.domain.exercise.Exercise;
 public interface ExerciseApplicationLayer {
 	
 	public Exercise saveExercise(final Exercise exercise);
-	public void delteExercise(final Long idExercise);	
+	public void deleteExercise(final Long idExercise);	
 	
 }

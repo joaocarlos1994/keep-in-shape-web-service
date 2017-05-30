@@ -7,8 +7,10 @@
 
 package br.com.keepinshape.applicationlayer;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import br.com.keepinshape.domain.exercise.Exercise;
 import br.com.keepinshape.domain.exercise.ExerciseRepository;
@@ -21,7 +23,7 @@ import br.com.keepinshape.domain.exercise.ExerciseRepository;
  * @author Joao Batista
  * @version 1.0 09/02/2017
  */
-@Repository
+@Component
 public class ExerciseApplicationLayerImpl implements ExerciseApplicationLayer {
 
 	private final ExerciseRepository exerciseRepository;
@@ -34,11 +36,15 @@ public class ExerciseApplicationLayerImpl implements ExerciseApplicationLayer {
 
 	@Override
 	public Exercise saveExercise(final Exercise exercise) {
-		return exerciseRepository.save(exercise);
+		final List<Exercise> allExercise = exerciseRepository.findAll();
+		if (!allExercise.contains(exercise)) {
+			return exerciseRepository.save(exercise);
+		} 
+		throw new IllegalArgumentException("Already exists exercise");
 	}
 
 	@Override
-	public void delteExercise(final Long idExercise) {
+	public void deleteExercise(final Long idExercise) {
 		if (idExercise.longValue() > 0L) {
 			exerciseRepository.delete(idExercise);
 		} else {

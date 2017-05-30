@@ -87,6 +87,8 @@ public class Exercise {
 	public void addActivity(final Activity activity) {
 		if (activity != null) {
 			this.activities.add(activity);
+		} else {
+			throw new NullPointerException("Activity is null");
 		}
 	}
 
@@ -105,48 +107,70 @@ public class Exercise {
 		}		
 		
 		public Builder weight(final double weight) {
+			if (weight <= 0) {
+				throw new IllegalArgumentException("Weight is invalid");
+			}
 			this.weight = weight;
 			return this;
 		}
 		
 		public Builder quantity(final int quantity) {
+			if (quantity <= 0) {
+				throw new IllegalArgumentException("Quantity is invalid");
+			}
 			this.quantity = quantity;
 			return this;
 		}
 		
 		
 		public Builder points(final double points) {
+			if (points <= 0) {
+				throw new IllegalArgumentException("Points is invalid");
+			}
 			this.points = points;
 			return this;
 		}
 		
 		public Exercise build() {
 			return new Exercise(this);
-		}	
-	}
+		}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
+		/** {@inheritDoc} */
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((name == null) ? 0 : name.hashCode());
+			long temp;
+			temp = Double.doubleToLongBits(points);
+			result = prime * result + (int) (temp ^ (temp >>> 32));
+			result = prime * result + quantity;
+			temp = Double.doubleToLongBits(weight);
+			result = prime * result + (int) (temp ^ (temp >>> 32));
+			return result;
+		}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Exercise other = (Exercise) obj;
-		if (id == null) {
-			if (other.id != null)
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
 				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+			if (getClass() != obj.getClass())
+				return false;
+			Builder other = (Builder) obj;
+			if (name == null) {
+				if (other.name != null)
+					return false;
+			} else if (!name.equals(other.name))
+				return false;
+			if (Double.doubleToLongBits(points) != Double.doubleToLongBits(other.points))
+				return false;
+			if (quantity != other.quantity)
+				return false;
+			if (Double.doubleToLongBits(weight) != Double.doubleToLongBits(other.weight))
+				return false;
+			return true;
+		}	
 	}
 }

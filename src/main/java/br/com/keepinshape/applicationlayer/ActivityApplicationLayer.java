@@ -22,5 +22,6 @@ public interface ActivityApplicationLayer {
 	public Activity saveActivity(final Activity activity);
 	public Activity findById(final Long id);
 	public void delteActivity(final Long idactivity);
+	public void delteActivityExercise(final Long id, final Long idExercise);
 	
 }

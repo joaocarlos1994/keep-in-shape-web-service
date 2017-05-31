@@ -16,22 +16,21 @@ import br.com.keepinshape.domain.exercise.Exercise;
 import br.com.keepinshape.domain.exercise.ExerciseRepository;
 
 /**
- * A <code>ActivityApplicationLayerImpl</code> tem por
- * objetivo fornecer metodos comum para infraestrutura 
- * de banco de dados.
+ * A <code>ActivityApplicationLayerImpl</code> tem por objetivo fornecer metodos
+ * comum para infraestrutura de banco de dados.
  *
  * @author Joao Batista
  * @version 1.0 05/03/2017
  */
 @Component
 public class ActivityApplicationLayerImpl implements ActivityApplicationLayer {
-	
+
 	private final ActivityRepository activityRepository;
 	private final ExerciseRepository exerciseRepository;
-	
+
 	@Autowired
 	public ActivityApplicationLayerImpl(final ActivityRepository activityRepository,
-										final ExerciseRepository exerciseRepository) {
+			final ExerciseRepository exerciseRepository) {
 		super();
 		this.activityRepository = activityRepository;
 		this.exerciseRepository = exerciseRepository;
@@ -42,15 +41,15 @@ public class ActivityApplicationLayerImpl implements ActivityApplicationLayer {
 		if (activity != null) {
 			return activityRepository.save(activity);
 		}
-		return null;
+		throw new IllegalArgumentException("Activity is invalid");
 	}
-	
+
 	@Override
 	public Activity findById(final Long id) {
 		if (id != null && id.longValue() > 0) {
 			return activityRepository.findOne(id);
 		}
-		return null;
+		throw new IllegalArgumentException("Id Activity is invalid");
 	}
 
 	@Override
@@ -64,9 +63,13 @@ public class ActivityApplicationLayerImpl implements ActivityApplicationLayer {
 
 	@Override
 	public void delteActivityExercise(final Long id, final Long idExercise) {
-		final Exercise exerciseExclued = exerciseRepository.findOne(idExercise);
-		final Activity activity = findById(id);
-		activity.removeExercise(exerciseExclued);
-		activityRepository.save(activity);
+		if (idExercise != null && idExercise > 0L) {
+			final Exercise exerciseExclued = exerciseRepository.findOne(idExercise);
+			final Activity activity = findById(id);
+			activity.removeExercise(exerciseExclued);
+			activityRepository.save(activity);
+		} else {
+			throw new IllegalArgumentException("Id Exercise invalid");
+		}
 	}
 }

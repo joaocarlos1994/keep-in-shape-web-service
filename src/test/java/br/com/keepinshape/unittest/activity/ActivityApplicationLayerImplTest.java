@@ -86,11 +86,6 @@ public class ActivityApplicationLayerImplTest {
 		activityApplicationLayerImpl.findById(-1l);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void testFindActivityByIdNull() {		
-		activityApplicationLayerImpl.findById(null);
-	}
-	
 	@Test
 	public void testDeleteActivity() {		
 		activityApplicationLayerImpl.delteActivity(1l);
@@ -100,11 +95,6 @@ public class ActivityApplicationLayerImplTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testDeleteActivityIdInvalid() {		
 		activityApplicationLayerImpl.delteActivity(-1l);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void testDeleteActivityIdNull() {		
-		activityApplicationLayerImpl.delteActivity(null);
 	}
 	
 	@Test

@@ -43,9 +43,9 @@ public class ActivitySerialize extends JsonSerializer<ActivityWrapper> {
 		jsonGenerator.writeStartObject();
 		jsonGenerator.writeNumberField("id", activityWrapper.getId());
 		jsonGenerator.writeStringField("name", activityWrapper.getName());
-		jsonGenerator.writeStringField("weekDay", activityWrapper.getWeekday());
+		jsonGenerator.writeStringField("weekday", activityWrapper.getWeekday());
 		jsonGenerator.writeNumberField("totalPoints", activityWrapper.totalPoints());
-		jsonGenerator.writeFieldName("exercices");
+		jsonGenerator.writeFieldName("exercises");
 		
 		jsonGenerator.writeStartArray();
 		for (final Exercise exercise : activityWrapper.getExercices()) {

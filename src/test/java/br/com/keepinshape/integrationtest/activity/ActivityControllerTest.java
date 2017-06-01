@@ -101,11 +101,11 @@ public class ActivityControllerTest {
 		final String response = this.mockMvc.perform(post("/rest/activity").content(JsonUtils.convertObjectToJson(newActvity)).contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn().getResponse().getContentAsString();
 		final Long id = JsonUtils.getNode(response, "id").asLong();
 		final String result = this.mockMvc.perform(get("/rest/activity/" + id)).andReturn().getResponse().getContentAsString();
-		final JsonNode exerciseNodeArray = JsonUtils.getNode(result, "exercices");
+		final JsonNode exerciseNodeArray = JsonUtils.getNode(result, "exercises");
 		final JsonNode exerciseNode = exerciseNodeArray.get(0);
 		
 		assertEquals(newActvity.getName(), JsonUtils.getNode(result, "name").asText());
-		assertEquals(newActvity.getWeekday().name(), JsonUtils.getNode(result, "weekDay").asText());
+		assertEquals(newActvity.getWeekday().name(), JsonUtils.getNode(result, "weekday").asText());
 		assertEquals(newActvity.totalPoints(), JsonUtils.getNode(result, "totalPoints").asDouble(), 0);
 		assertEquals(exercise.getId(), JsonUtils.getNode(exerciseNode.toString(), "id").asLong(), 0);
 		assertEquals(exercise.getName(), JsonUtils.getNode(exerciseNode.toString(), "name").asText());
@@ -126,18 +126,19 @@ public class ActivityControllerTest {
 		final Activity actvity = Activity.valueOf("TESTE ACTIVITY EXERCISE");
 		actvity.setId(new Long(2L));
 		actvity.setWeekday(Weekday.TERÇA);
+		
 		actvity.addExercise(exercise);
 		actvity.addExercise(exercise2);
 		
 		
 		this.mockMvc.perform(post("/rest/activity").content(JsonUtils.convertObjectToJson(actvity)).contentType(MediaType.APPLICATION_JSON_VALUE));
 		final String result = this.mockMvc.perform(get("/rest/activity/2")).andReturn().getResponse().getContentAsString();
-		final JsonNode exerciseNodeArray = JsonUtils.getNode(result, "exercices");
+		final JsonNode exerciseNodeArray = JsonUtils.getNode(result, "exercises");
 		final JsonNode exerciseNodeOne = exerciseNodeArray.get(0);
 		final JsonNode exerciseNodeTwo = exerciseNodeArray.get(1);
 		
 		assertEquals(actvity.getName(), JsonUtils.getNode(result, "name").asText());
-		assertEquals(actvity.getWeekday().name(), JsonUtils.getNode(result, "weekDay").asText());
+		assertEquals(actvity.getWeekday().name(), JsonUtils.getNode(result, "weekday").asText());
 		assertEquals(actvity.totalPoints(), JsonUtils.getNode(result, "totalPoints").asDouble(), 0);
 		
 		assertEquals(exercise.getId(), JsonUtils.getNode(exerciseNodeOne.toString(), "id").asLong(), 0);
@@ -158,10 +159,10 @@ public class ActivityControllerTest {
 		
 		this.mockMvc.perform(delete("/rest/activity/4/exercise/1")).andReturn();
 		final String result = this.mockMvc.perform(get("/rest/activity/4")).andReturn().getResponse().getContentAsString();
-		final JsonNode exerciseNodeArray = JsonUtils.getNode(result, "exercices");
+		final JsonNode exerciseNodeArray = JsonUtils.getNode(result, "exercises");
 		
 		assertEquals("TESTE ACTIVITY EXERCISE DELETE", JsonUtils.getNode(result, "name").asText());
-		assertEquals("SEGUNDA", JsonUtils.getNode(result, "weekDay").asText());
+		assertEquals("SEGUNDA", JsonUtils.getNode(result, "weekday").asText());
 		assertEquals(0, 0, 0);
 		assertEquals(0, exerciseNodeArray.size(), 0);
 	}

@@ -61,9 +61,11 @@ public class ActivityTest {
 	public void testCreateActivityWithExerciseDuplicated() {
 		
 		final Exercise exercise = new Exercise.Builder("Supino").weight(30).quantity(3).points(30).build();
+		final Exercise exerciseSame = new Exercise.Builder("Supino").weight(30).quantity(3).points(30).build();
+		
 		final Activity activity = Activity.valueOf("Treino A");
 		activity.addExercise(exercise);
-		activity.addExercise(exercise);
+		activity.addExercise(exerciseSame);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

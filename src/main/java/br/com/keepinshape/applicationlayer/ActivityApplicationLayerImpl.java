@@ -7,6 +7,8 @@
 
 package br.com.keepinshape.applicationlayer;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,10 +40,11 @@ public class ActivityApplicationLayerImpl implements ActivityApplicationLayer {
 
 	@Override
 	public Activity saveActivity(final Activity activity) {
-		if (activity != null) {
+		final List<Activity> allActivity = activityRepository.findAll();
+		if (activity != null && !allActivity.contains(activity)) {
 			return activityRepository.save(activity);
 		}
-		throw new IllegalArgumentException("Activity is invalid");
+		throw new IllegalArgumentException("Activity is invalid or exists");
 	}
 
 	@Override

@@ -28,7 +28,9 @@ import br.com.keepinshape.domain.exercise.Exercise;
 import br.com.keepinshape.domain.exercise.ExerciseRepository;
 
 /**
- * Class comments go here...
+ * A <code>ActivityApplicationLayerImplTest</code> tem por responsablidade
+ * a <code>ActivityApplicationLayerImpl</code> onde a mesma contem alguns
+ * metodos de validacoes de campo, como proproposto por Evans.
  *
  * @author Joao Batista
  * @version 1.0 30/05/2017

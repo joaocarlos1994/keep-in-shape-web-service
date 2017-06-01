@@ -42,12 +42,25 @@ public class ExerciseController {
 		this.exerciseApplicationLayer = exerciseApplicationLayer;
 	}
 
+	/**
+	 * Este metodo tem por responsabilidade disponibilizar um end-point para acesso ao keep-in-shape,
+	 * onde a mesma recebe a <code>ExerciseWrapper</code> que encapsula a <code>Exercise</code>.
+	 * 
+	 * @param exerciseWrapper objeto que contem o exercise.
+	 * @return ResponseEntity<ExerciseWrapper> com um status http e um json em seu body.
+	 * */
 	@PostMapping(value = "/exercise")
 	public ResponseEntity<ExerciseWrapper> save(@RequestBody final ExerciseWrapper exerciseWrapper) {
 		final Exercise saveExercise = exerciseApplicationLayer.saveExercise(exerciseWrapper.getExercise());
 		return new ResponseEntity<>(new ExerciseWrapper(saveExercise), HttpStatus.CREATED);
 	}
 	
+	/**
+	 * Este metodo tem por responsabilidade expor o end-point para excluso de um id do keep-in-shape.
+	 * 
+	 * @param idExercise O id do exercicio.
+	 * @return ResponseEntity<ExerciseWrapper> com um status http.
+	 * */
 	@DeleteMapping(value = "/exercise/{id}")
 	public ResponseEntity<ExerciseWrapper> delete(@PathVariable("id") final Long idExercise) {
 		exerciseApplicationLayer.deleteExercise(idExercise);

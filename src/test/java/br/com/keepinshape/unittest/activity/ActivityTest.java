@@ -19,7 +19,9 @@ import br.com.keepinshape.domain.activities.Activity;
 import br.com.keepinshape.domain.exercise.Exercise;
 
 /**
- * Class comments go here...
+ * A <code>ActivityTest</code> tem por responsabilidae testar a
+ * <code>Activity</code> onde a mesma possui algumas regras de
+ * dominio.
  *
  * @author Joao Batista
  * @version 1.0 29/05/2017

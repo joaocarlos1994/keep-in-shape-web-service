@@ -20,7 +20,9 @@ import br.com.keepinshape.domain.activities.Weekday;
 import br.com.keepinshape.domain.exercise.Exercise;
 
 /**
- * Class comments go here...
+ * A <code>ExerciseTest</code> tem por responsabilidade
+ * testar os metodos da <code>Exercise</code> e
+ * suas regras de dominio.
  *
  * @author Joao Batista
  * @version 1.0 15/03/2017

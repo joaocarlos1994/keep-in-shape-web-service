@@ -35,8 +35,11 @@ import br.com.keepinshape.domain.exercise.Exercise;
 import br.com.keepinshape.util.JsonUtils;
 
 /**
- * Class comments go here...
- *
+ * A <code>ExerciseControllerTest</code> e responsavel
+ * por testar os end-points exposto pelo keep-in-shape,
+ * em especialmente ela testa todos end-points do
+ * aggregated <code>Exercise</code>.
+ * 
  * @author Joao Batista
  * @version 1.0 07/03/2017
  */

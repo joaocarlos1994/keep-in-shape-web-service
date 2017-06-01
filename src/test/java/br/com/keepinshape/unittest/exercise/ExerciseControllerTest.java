@@ -30,7 +30,9 @@ import br.com.keepinshape.restapi.ExerciseController;
 import br.com.keepinshape.restapi.wrapper.ExerciseWrapper;
 
 /**
- * Class comments go here...
+ * A <code>ExerciseControllerTest</code> tem por responsabilidade
+ * testar a <code>ExerciseController</code> verificando as regras
+ * do metodo exposto.
  *
  * @author Joao Batista
  * @version 1.0 30/05/2017

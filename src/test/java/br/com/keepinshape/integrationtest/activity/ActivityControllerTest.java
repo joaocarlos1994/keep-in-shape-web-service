@@ -40,7 +40,9 @@ import br.com.keepinshape.util.JsonUtils;
 
 /**
  * A <code>ActivityControllerTest</code> e responsavel
- * por testar os end-points na <code>Activity</code>
+ * por testar os end-points exposto pelo keep-in-shape,
+ * em especialmente ela testa todos end-points do
+ * aggregated <code>Activity</code>.
  *
  * @author Joao Batista
  * @version 1.0 12/03/2017

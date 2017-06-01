@@ -30,7 +30,9 @@ import br.com.keepinshape.domain.exercise.Exercise;
 import br.com.keepinshape.domain.exercise.ExerciseRepository;
 
 /**
- * Class comments go here...
+ * A <code>ExerciseApplicationLayerImplTest</code> tem por
+ * responsabilidade testar a <code>ExerciseApplicationLayerImpl</code>,
+ * onde mesma possui algumas regras relacionado a validacoes de campos.
  *
  * @author Joao Batista
  * @version 1.0 16/03/2017

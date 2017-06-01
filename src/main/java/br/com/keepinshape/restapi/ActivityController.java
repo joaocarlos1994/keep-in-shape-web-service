@@ -43,23 +43,56 @@ public class ActivityController {
 		this.activityApplicationLayer = activityApplicationLayer;
 	}
 	
+	/**
+	 * Este metodo tem por responsabilidade disponibilizar um end-point para salvar uma <code>Activity</code>
+	 * onde a mesma recebe a <code>ActivityWrapper</code> que encapsula a <code>Activity</code>. Apos
+	 * receber este objeto <code>Activity</code> o mesmo sera encaminhando para <code>ActivityApplicationLayer</code>,
+	 * seguindo assim os conceitos propostos pro Evans.
+	 * 
+	 * @param activityWrapper objeto que contem o activity.
+	 * @return ResponseEntity<ActivityWrapper> com um status http e um json em seu body.
+	 * */
 	@PostMapping(value = "/activity")
 	public ResponseEntity<ActivityWrapper> save(@RequestBody final ActivityWrapper activityWrapper) {
 		final Activity activity = activityApplicationLayer.saveActivity(activityWrapper.getActivity());
 		return new ResponseEntity<>(new ActivityWrapper(activity), HttpStatus.CREATED);
 	}
 	
+	/**
+	 * Este metodo tem por responsabilidade disponibilizar um end-point para buscar de uma
+	 * <code>Activity</code> salva no banco de dados.
+	 * 
+	 * @param id objeto que deseja buscar.
+	 * @return ResponseEntity<ActivityWrapper> com um status http e um json em seu body.
+	 * */
 	@GetMapping(value = "/activity/{id}")
 	public ResponseEntity<ActivityWrapper> get(@PathVariable("id") final Long id) {
 		return new ResponseEntity<>(new ActivityWrapper(activityApplicationLayer.findById(id)), HttpStatus.OK);
 	}
 	
+	
+	/**
+	 * Este metodo tem por responsabilidade disponibilizar um end-point para deletar uma
+	 * <code>Activity</code> salva no banco de dados.
+	 * 
+	 * @param id objeto que deseja deletar.
+	 * @return ResponseEntity<ActivityWrapper> com um status http.
+	 * */
 	@DeleteMapping(value = "/activity/{id}")
 	public ResponseEntity<ActivityWrapper> delete(@PathVariable("id") final Long id) {
 		activityApplicationLayer.delteActivity(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
+	
+	/**
+	 * Este metodo tem por responsabilidade disponibilizar um end-point para deletar um exercise
+	 * de uma respectiva <code>Activity</code>.
+	 * 
+	 * @param id Activity que deseja buscar.
+	 * @param idExercise Exercise que deseja excluir.
+	 * @return ResponseEntity<ActivityWrapper> com um status http.
+	 * */
 	@DeleteMapping(value = "/activity/{id}/exercise/{idExercise}")
 	public ResponseEntity<ActivityWrapper> deleteExercise(@PathVariable("id") final Long id, @PathVariable("idExercise") final Long idExercise) {
 		activityApplicationLayer.delteActivityExercise(id, idExercise);

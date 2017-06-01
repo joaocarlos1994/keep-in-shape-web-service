@@ -39,7 +39,8 @@ import br.com.keepinshape.domain.exercise.Exercise;
 import br.com.keepinshape.util.JsonUtils;
 
 /**
- * Class comments go here...
+ * A <code>ActivityControllerTest</code> e responsavel
+ * por testar os end-points na <code>Activity</code>
  *
  * @author Joao Batista
  * @version 1.0 12/03/2017

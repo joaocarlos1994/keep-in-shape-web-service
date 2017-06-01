@@ -90,18 +90,18 @@ public class ActivityApplicationLayerImplTest {
 	
 	@Test
 	public void testDeleteActivity() {		
-		activityApplicationLayerImpl.delteActivity(1l);
+		activityApplicationLayerImpl.deleteActivity(1l);
 		verify(activityRepository, times(1)).delete(1l);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testDeleteActivityIdInvalid() {		
-		activityApplicationLayerImpl.delteActivity(-1l);
+		activityApplicationLayerImpl.deleteActivity(-1l);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testDeleteActivityIdNull() {		
-		activityApplicationLayerImpl.delteActivity(null);
+		activityApplicationLayerImpl.deleteActivity(null);
 	}
 	
 	@Test
@@ -117,7 +117,7 @@ public class ActivityApplicationLayerImplTest {
 		when(exerciseRepository.findOne(1l)).thenReturn(exercise);
 		when(activityApplicationLayerImpl.findById(1l)).thenReturn(activity);
 		
-		activityApplicationLayerImpl.delteActivityExercise(1l, 1l);
+		activityApplicationLayerImpl.deleteActivityExercise(1l, 1l);
 		assertEquals(1l, activity.getId(), 0);
 		assertEquals(0, activity.getExercises().size(), 0);
 		verify(exerciseRepository, times(1)).findOne(1l);
@@ -127,21 +127,21 @@ public class ActivityApplicationLayerImplTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testdelteActivityExerciseWithActivityInvalid() {		
-		activityApplicationLayerImpl.delteActivityExercise(-1l, 1l);
+		activityApplicationLayerImpl.deleteActivityExercise(-1l, 1l);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testdelteActivityExerciseWithActivityNull() {		
-		activityApplicationLayerImpl.delteActivityExercise(null, 1l);
+		activityApplicationLayerImpl.deleteActivityExercise(null, 1l);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testdelteActivityExerciseWithExerciseInvalid() {		
-		activityApplicationLayerImpl.delteActivityExercise(1l, -1l);
+		activityApplicationLayerImpl.deleteActivityExercise(1l, -1l);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testdelteActivityExerciseWithExerciseNull() {		
-		activityApplicationLayerImpl.delteActivityExercise(1l, null);
+		activityApplicationLayerImpl.deleteActivityExercise(1l, null);
 	}
 }

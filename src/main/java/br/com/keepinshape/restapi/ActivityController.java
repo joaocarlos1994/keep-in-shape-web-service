@@ -80,7 +80,7 @@ public class ActivityController {
 	 * */
 	@DeleteMapping(value = "/activity/{id}")
 	public ResponseEntity<ActivityWrapper> delete(@PathVariable("id") final Long id) {
-		activityApplicationLayer.delteActivity(id);
+		activityApplicationLayer.deleteActivity(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
@@ -95,7 +95,7 @@ public class ActivityController {
 	 * */
 	@DeleteMapping(value = "/activity/{id}/exercise/{idExercise}")
 	public ResponseEntity<ActivityWrapper> deleteExercise(@PathVariable("id") final Long id, @PathVariable("idExercise") final Long idExercise) {
-		activityApplicationLayer.delteActivityExercise(id, idExercise);
+		activityApplicationLayer.deleteActivityExercise(id, idExercise);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

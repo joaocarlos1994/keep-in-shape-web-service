@@ -27,7 +27,6 @@ public abstract class AbstractDeserializer<T> extends JsonDeserializer<T> {
 	
 	public T deserializeNode(final JsonNode jsonNode, DeserializationContext deserializationContext) throws IOException {
 		return null;
-		
 	}
 	
 	@Override

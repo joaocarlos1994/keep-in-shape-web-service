@@ -8,7 +8,6 @@
 package br.com.keepinshape.unittest.exercise;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -60,7 +59,7 @@ public class ExerciseControllerTest {
 
 		final ExerciseWrapper exerciseWrapper = new ExerciseWrapper(exercise);
 
-		when(exerciseApplicationLayerImpl.saveExercise(any(Exercise.class))).thenReturn(exerciseSaved);
+		when(exerciseApplicationLayerImpl.saveExercise(exercise)).thenReturn(exerciseSaved);
 
 		final ResponseEntity<ExerciseWrapper> reponseEntity = exerciseController.save(exerciseWrapper);
 		final Exercise exerciseResponse = reponseEntity.getBody().getExercise();
@@ -71,6 +70,14 @@ public class ExerciseControllerTest {
 		assertEquals(50, exerciseResponse.getWeight(), 0);
 		assertEquals(2, exerciseResponse.getQuantity(), 0);
 		assertEquals(70, exerciseResponse.getPoints(), 0);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void saveExerciseNull() {
+
+		final ExerciseWrapper exerciseWrapper = new ExerciseWrapper(null);
+		doThrow(new IllegalArgumentException()).when(exerciseApplicationLayerImpl).saveExercise(null);
+		exerciseController.save(exerciseWrapper);
 	}
 
 	@Test

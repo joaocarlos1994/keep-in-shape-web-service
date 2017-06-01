@@ -56,7 +56,7 @@ public class ActivityApplicationLayerImpl implements ActivityApplicationLayer {
 	}
 
 	@Override
-	public void delteActivity(final Long idActivity) {
+	public void deleteActivity(final Long idActivity) {
 		if (idActivity != null && idActivity.longValue() > 0L) {
 			activityRepository.delete(idActivity);
 		} else {
@@ -65,7 +65,7 @@ public class ActivityApplicationLayerImpl implements ActivityApplicationLayer {
 	}
 
 	@Override
-	public void delteActivityExercise(final Long id, final Long idExercise) {
+	public void deleteActivityExercise(final Long id, final Long idExercise) {
 		if (idExercise != null && idExercise > 0L) {
 			final Exercise exerciseExclued = exerciseRepository.findOne(idExercise);
 			final Activity activity = findById(id);

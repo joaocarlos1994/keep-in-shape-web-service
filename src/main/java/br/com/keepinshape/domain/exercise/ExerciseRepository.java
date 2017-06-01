@@ -22,5 +22,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  */
 @RepositoryRestResource(collectionResourceRel = "/springDataExercise", path = "/springDataExercise")
 public interface ExerciseRepository extends PagingAndSortingRepository<Exercise, Long> {
+	@Override
 	List<Exercise> findAll();
 }

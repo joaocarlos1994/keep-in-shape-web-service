@@ -9,6 +9,7 @@ package br.com.keepinshape.unittest.exercise;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -19,6 +20,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import br.com.keepinshape.applicationlayer.ExerciseApplicationLayerImpl;
@@ -35,31 +37,32 @@ import br.com.keepinshape.restapi.wrapper.ExerciseWrapper;
  */
 @RunWith(SpringRunner.class)
 @Category(UnitTest.class)
+@ContextConfiguration
 public class ExerciseControllerTest {
-	
+
 	private ExerciseController exerciseController;
-	
+
 	@Mock
 	private ExerciseApplicationLayerImpl exerciseApplicationLayerImpl;
-	
+
 	@Before
-	public void setUp(){
-	    this.exerciseController = new ExerciseController(exerciseApplicationLayerImpl);
+	public void setUp() {
+		this.exerciseController = new ExerciseController(exerciseApplicationLayerImpl);
 	}
-	
+
 	@Test
 	public void saveExercise() {
 		final Exercise exercise = new Exercise.Builder("Supino Test").weight(50).quantity(2).points(70).build();
 		final Exercise exerciseSaved = new Exercise.Builder("Supino Test").weight(50).quantity(2).points(70).build();
 		exerciseSaved.setId(1l);
-		
+
 		final ExerciseWrapper exerciseWrapper = new ExerciseWrapper(exercise);
-		
+
 		when(exerciseApplicationLayerImpl.saveExercise(any(Exercise.class))).thenReturn(exerciseSaved);
-		
+
 		final ResponseEntity<ExerciseWrapper> reponseEntity = exerciseController.save(exerciseWrapper);
 		final Exercise exerciseResponse = reponseEntity.getBody().getExercise();
-		
+
 		assertEquals(201, reponseEntity.getStatusCodeValue());
 		assertEquals(1, exerciseResponse.getId(), 0);
 		assertEquals("Supino Test", exerciseResponse.getName());
@@ -67,14 +70,21 @@ public class ExerciseControllerTest {
 		assertEquals(2, exerciseResponse.getQuantity(), 0);
 		assertEquals(70, exerciseResponse.getPoints(), 0);
 	}
-	
+
 	@Test
 	public void deleteExercise() {
-		
+
 		final ResponseEntity<ExerciseWrapper> reponseEntity = exerciseController.delete(1l);
 
 		assertEquals(200, reponseEntity.getStatusCodeValue());
-		verify(exerciseApplicationLayerImpl, times(1)).deleteExercise(1l);;
+		verify(exerciseApplicationLayerImpl, times(1)).deleteExercise(1l);
 	}
-	
+
+	@Test(expected = IllegalArgumentException.class)
+	public void deleteExerciseInvalidId() {
+		doThrow(new IllegalArgumentException()).when(exerciseApplicationLayerImpl).deleteExercise(-1L);
+		exerciseController.delete(-1l);
+		verify(exerciseApplicationLayerImpl, times(1)).deleteExercise(-1l);
+	}
+
 }

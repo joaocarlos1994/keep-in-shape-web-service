@@ -97,6 +97,11 @@ public class ActivityApplicationLayerImplTest {
 		activityApplicationLayerImpl.delteActivity(-1l);
 	}
 	
+	@Test(expected = IllegalArgumentException.class)
+	public void testDeleteActivityIdNull() {		
+		activityApplicationLayerImpl.delteActivity(null);
+	}
+	
 	@Test
 	public void testdelteActivityExercise() {
 		

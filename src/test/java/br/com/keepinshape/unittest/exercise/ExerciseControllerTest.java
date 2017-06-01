@@ -72,7 +72,7 @@ public class ExerciseControllerTest {
 	}
 
 	@Test
-	public void deleteExercise() {
+	public void deleteExercise() throws Exception {
 
 		final ResponseEntity<ExerciseWrapper> reponseEntity = exerciseController.delete(1l);
 

@@ -79,7 +79,18 @@ public class ExerciseTest {
 		assertEquals(70, exercise.getPoints(), 0);
 	}
 	
-	@Test(expected = NullPointerException.class)
+	@Test(expected = IllegalArgumentException.class)
+	public void testCreateExerciseWithActivityDuplicated() {
+		
+		final Activity actvity = Activity.valueOf("Activity Test");
+		actvity.setWeekday(Weekday.SEGUNDA);
+		
+		final Exercise exercise = new Exercise.Builder("Supino Test").weight(50).quantity(2).points(70).build();
+		exercise.addActivity(actvity);
+		exercise.addActivity(actvity);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
 	public void testCreateExerciseWithActivityNull() {
 		
 		final Exercise exercise = new Exercise.Builder("Supino Test").weight(50).quantity(2).points(70).build();

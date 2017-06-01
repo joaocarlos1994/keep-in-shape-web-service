@@ -58,7 +58,6 @@ public class ActivityDeserialize extends AbstractDeserializer<ActivityWrapper> {
 		
 		for (final Exercise exercise : exercises) {
 			activity.addExercise(exercise);
-			exercise.addActivity(activity);
 		}
 		
 		return new ActivityWrapper(activity);

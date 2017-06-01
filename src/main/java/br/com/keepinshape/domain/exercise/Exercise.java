@@ -85,10 +85,10 @@ public class Exercise {
 	}
 	
 	public void addActivity(final Activity activity) {
-		if (activity != null) {
+		if (!activities.contains(activity) && activity != null) {
 			this.activities.add(activity);
 		} else {
-			throw new NullPointerException("Activity is null");
+			throw new IllegalArgumentException("Activity is invalid");
 		}
 	}
 

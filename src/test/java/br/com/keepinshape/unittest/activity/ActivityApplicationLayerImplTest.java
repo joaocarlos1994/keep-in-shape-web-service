@@ -13,6 +13,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -64,6 +66,18 @@ public class ActivityApplicationLayerImplTest {
 		
 		assertEquals(1l, savedActivity.getId(), 0);
 		assertEquals("Treino A", savedActivity.getName());
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testSaveActivityExists() {
+		final Activity newActivity = Activity.valueOf("Treino A");
+		
+		final Activity activity = Activity.valueOf("Treino A");
+		activity.setId(1l);
+		
+		when(activityRepository.findAll()).thenReturn(Arrays.asList(activity));
+		when(activityRepository.save(newActivity)).thenReturn(activity);
+		activityApplicationLayerImpl.saveActivity(newActivity);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

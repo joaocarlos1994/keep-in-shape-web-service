@@ -77,17 +77,17 @@ public class ExerciseControllerTest {
 	}
 	
 	@Test
-	public void testPostExerciseExists() throws Exception {
+	public void testPostUpdateExerciseExists() throws Exception {
 		
-		final String getResult = this.mockMvc.perform(get("/springDataExercise/1")).andReturn().getResponse().getContentAsString();
-		final Exercise exercise = new Exercise.Builder("TESTE UPDATE").weight(50).quantity(2).points(50).build();
-		exercise.setId(new Long(1L));
+		final String getResult = this.mockMvc.perform(get("/springDataExercise/2")).andReturn().getResponse().getContentAsString();
+		final Exercise exercise = new Exercise.Builder("TESTE UPDATE EXERCISE").weight(70).quantity(2).points(100).build();
+		exercise.setId(new Long(2L));
 		final String postResult = this.mockMvc.perform(post("/rest/exercise").content(JsonUtils.convertObjectToJson(exercise)).contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn().getResponse().getContentAsString();
 		
-		assertEquals("TESTE", JsonUtils.getNode(getResult, "name").asText());
-		assertEquals(30, JsonUtils.getNode(getResult, "weight").asDouble(), 0);
-		assertEquals(3, JsonUtils.getNode(getResult, "quantity").asInt(), 0);
-		assertEquals(30, JsonUtils.getNode(getResult, "points").asDouble(), 0);
+		assertEquals("TESTE UPDATE", JsonUtils.getNode(getResult, "name").asText());
+		assertEquals(40, JsonUtils.getNode(getResult, "weight").asDouble(), 0);
+		assertEquals(2, JsonUtils.getNode(getResult, "quantity").asInt(), 0);
+		assertEquals(50, JsonUtils.getNode(getResult, "points").asDouble(), 0);
 		assertEquals(exercise.getName(), JsonUtils.getNode(postResult, "name").asText());
 		assertEquals(exercise.getWeight(), JsonUtils.getNode(postResult, "weight").asDouble(), 0);
 		assertEquals(exercise.getQuantity(), JsonUtils.getNode(postResult, "quantity").asInt(), 0);
@@ -110,6 +110,13 @@ public class ExerciseControllerTest {
 		assertEquals(3, JsonUtils.getNode(getResult, "quantity").asInt(), 0);
 		assertEquals(30, JsonUtils.getNode(getResult, "points").asDouble(), 0);
 	}
+	
+	@Test(expected = Exception.class)
+	public void testPostExerciseExists() throws Exception {
+		final Exercise exercise = new Exercise.Builder("TESTE").weight(30).quantity(3).points(30).build();
+		this.mockMvc.perform(post("/rest/exercise").content(JsonUtils.convertObjectToJson(exercise)).contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn().getResponse().getContentAsString();
+	}
+	
 	
 	@Test
 	public void testGetExerciseNotFund() throws Exception {

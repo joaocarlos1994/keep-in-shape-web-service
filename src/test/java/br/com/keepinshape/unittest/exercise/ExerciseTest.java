@@ -87,9 +87,12 @@ public class ExerciseTest {
 		final Activity actvity = Activity.valueOf("Activity Test");
 		actvity.setWeekday(Weekday.SEGUNDA);
 		
+		final Activity actvitySame = Activity.valueOf("Activity Test");
+		actvitySame.setWeekday(Weekday.SEGUNDA);
+		
 		final Exercise exercise = new Exercise.Builder("Supino Test").weight(50).quantity(2).points(70).build();
 		exercise.addActivity(actvity);
-		exercise.addActivity(actvity);
+		exercise.addActivity(actvitySame);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

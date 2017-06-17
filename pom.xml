@@ -145,10 +145,23 @@
 							<excludedGroups>br.com.keepinshape.config.IntegrationTest</excludedGroups>
 						</configuration>
 					</plugin>
+					<plugin>
+						<groupId>org.pitest</groupId>
+						<artifactId>pitest-maven</artifactId>
+						<configuration>
+							<skip>false</skip>
+							<targetClasses>
+								<param>br.com.keepinshape*</param>
+							</targetClasses>
+							<targetTests>
+								<param>br.com.keepinshape.unittest*</param>
+							</targetTests>
+						</configuration>
+					</plugin>
 				</plugins>
 			</build>
 		</profile>
-		<!-- END: Unit Test  -->
+		<!-- END: Unit Test -->
 
 		<!-- BEGIN: Integration Test -->
 		<profile>
@@ -173,11 +186,23 @@
 							<excludedGroups>br.com.keepinshape.config.UnitTest</excludedGroups>
 						</configuration>
 					</plugin>
+					<plugin>
+						<groupId>org.pitest</groupId>
+						<artifactId>pitest-maven</artifactId>
+						<configuration>
+							<skip>false</skip>
+							<targetClasses>
+								<param>br.com.keepinshape*</param>
+							</targetClasses>
+							<targetTests>
+								<param>br.com.keepinshape.integrationtest*</param>
+							</targetTests>
+						</configuration>
+					</plugin>
 				</plugins>
 			</build>
 		</profile>
 		<!-- END: Integration Test -->
-
 	</profiles>
 
 </project>

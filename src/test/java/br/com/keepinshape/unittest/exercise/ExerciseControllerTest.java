@@ -19,7 +19,6 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import br.com.keepinshape.applicationlayer.ExerciseApplicationLayerImpl;
@@ -38,7 +37,6 @@ import br.com.keepinshape.restapi.wrapper.ExerciseWrapper;
  */
 @RunWith(SpringRunner.class)
 @Category(UnitTest.class)
-@ContextConfiguration
 public class ExerciseControllerTest {
 
 	private ExerciseController exerciseController;

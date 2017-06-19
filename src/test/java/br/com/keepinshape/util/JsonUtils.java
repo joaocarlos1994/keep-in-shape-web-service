@@ -8,8 +8,9 @@
 package br.com.keepinshape.util;
 
 import java.io.IOException;
-import java.io.StringReader;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,7 +38,7 @@ public class JsonUtils {
 
 	public static JsonNode getNode(final String result, final String nodeFind) {
 		try {
-			final JsonNode rootNode = new ObjectMapper().readTree(new StringReader(result));
+			final JsonNode rootNode = new ObjectMapper().readTree(result);
 			final JsonNode node = rootNode.findValue(nodeFind);
 			return node;
 		} catch (IOException e) {
@@ -45,5 +46,4 @@ public class JsonUtils {
 		}
 		throw new RuntimeException();
 	}
-
 }

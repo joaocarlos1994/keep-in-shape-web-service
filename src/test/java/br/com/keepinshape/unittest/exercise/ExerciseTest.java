@@ -55,15 +55,33 @@ public class ExerciseTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
+	public void testCreateExerciseWithWeightZero() {	
+		@SuppressWarnings("unused")
+		final Exercise exercise = new Exercise.Builder("Supino").weight(-0).quantity(2).points(70).build();
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
 	public void testCreateExerciseWithQuantityInconsistent() {	
 		@SuppressWarnings("unused")
 		final Exercise exercise = new Exercise.Builder("Supino").weight(50).quantity(-1).points(70).build();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
+	public void testCreateExerciseWithQuantityZero() {	
+		@SuppressWarnings("unused")
+		final Exercise exercise = new Exercise.Builder("Supino").weight(50).quantity(0).points(70).build();
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
 	public void testCreateExerciseWithPointsInconsistent() {	
 		@SuppressWarnings("unused")
 		final Exercise exercise = new Exercise.Builder("Supino").weight(50).quantity(2).points(-1).build();
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testCreateExerciseWithPointsZero() {	
+		@SuppressWarnings("unused")
+		final Exercise exercise = new Exercise.Builder("Supino").weight(50).quantity(2).points(0).build();
 	}
 	
 	@Test

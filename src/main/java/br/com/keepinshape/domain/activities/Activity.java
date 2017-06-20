@@ -56,6 +56,7 @@ public class Activity {
 		this.exercises = new ArrayList<>();
 	}
 	
+	@Deprecated
 	private Activity() {
 		this.name = null;
 		this.exercises = null;
@@ -69,7 +70,6 @@ public class Activity {
 	public Exercise addExercise(final Exercise exercise) {
 		if (exercise != null && (!exercises.contains(exercise))) {
 			this.exercises.add(exercise);
-			exercise.addActivity(this);
 			return exercise;
 		}
 		throw new IllegalArgumentException("Already exists exercise or exercise invalid");

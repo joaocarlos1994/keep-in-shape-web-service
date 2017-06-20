@@ -85,6 +85,21 @@ public class ActivityApplicationLayerImplTest {
 		activityApplicationLayerImpl.saveActivity(null);
 	}
 	
+	@Test(expected = IllegalArgumentException.class)
+	public void testFindActivityByIdNegative() {		
+		activityApplicationLayerImpl.findById(-1l);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testFindActivityByIdZero() {		
+		activityApplicationLayerImpl.findById(0l);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testFindActivityByIdNull() {		
+		activityApplicationLayerImpl.findById(null);
+	}
+	
 	@Test
 	public void testFindActivityById() {
 		final Activity activityMock = Activity.valueOf("Treino A");
@@ -98,19 +113,13 @@ public class ActivityApplicationLayerImplTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testFindActivityByIdInvalid() {		
-		activityApplicationLayerImpl.findById(-1l);
-	}
-	
-	@Test
-	public void testDeleteActivity() {		
-		activityApplicationLayerImpl.deleteActivity(1l);
-		verify(activityRepository, times(1)).delete(1l);
+	public void testDeleteActivityIdNegative() {		
+		activityApplicationLayerImpl.deleteActivity(-1l);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testDeleteActivityIdInvalid() {		
-		activityApplicationLayerImpl.deleteActivity(-1l);
+	public void testDeleteActivityIdZero() {		
+		activityApplicationLayerImpl.deleteActivity(0l);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -119,7 +128,13 @@ public class ActivityApplicationLayerImplTest {
 	}
 	
 	@Test
-	public void testdelteActivityExercise() {
+	public void testDeleteActivity() {		
+		activityApplicationLayerImpl.deleteActivity(1l);
+		verify(activityRepository, times(1)).delete(1l);
+	}
+	
+	@Test
+	public void testDelteActivityExercise() {
 		
 		final Exercise exercise = new Exercise.Builder("Supino").weight(50).quantity(2).points(70).build();
 		exercise.setId(1l);
@@ -145,6 +160,11 @@ public class ActivityApplicationLayerImplTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
+	public void testdelteActivityExerciseWithIdActivityZero() {		
+		activityApplicationLayerImpl.deleteActivityExercise(0l, 1l);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
 	public void testdelteActivityExerciseWithActivityNull() {		
 		activityApplicationLayerImpl.deleteActivityExercise(null, 1l);
 	}
@@ -155,7 +175,37 @@ public class ActivityApplicationLayerImplTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
+	public void testdelteActivityExerciseWithExerciseIdZero() {		
+		activityApplicationLayerImpl.deleteActivityExercise(1l, 0l);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
 	public void testdelteActivityExerciseWithExerciseNull() {		
 		activityApplicationLayerImpl.deleteActivityExercise(1l, null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testdelteActivityExerciseWithIDsZero() {		
+		activityApplicationLayerImpl.deleteActivityExercise(0l, 0l);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testdelteActivityExerciseWithActivityNegativeAndExerciseNull() {		
+		activityApplicationLayerImpl.deleteActivityExercise(-1l, null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testdelteActivityExerciseWithActivityNullAndExerciseZero() {		
+		activityApplicationLayerImpl.deleteActivityExercise(null, 0l);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testdelteActivityExerciseWithActivityNullAndExerciseNegative() {		
+		activityApplicationLayerImpl.deleteActivityExercise(null, -1l);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testdelteActivityExerciseWithIDsNull() {		
+		activityApplicationLayerImpl.deleteActivityExercise(null, null);
 	}
 }

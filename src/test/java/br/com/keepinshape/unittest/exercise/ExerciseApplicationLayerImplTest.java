@@ -75,8 +75,13 @@ public class ExerciseApplicationLayerImplTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deleteExerciseByIdInvalid() {		
+	public void deleteExerciseByIdNegative() {		
 		exerciseApplicationLayerImpl.deleteExercise(-1l);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deleteExerciseByIdZero() {		
+		exerciseApplicationLayerImpl.deleteExercise(0l);
 	}
 	
 	@Test

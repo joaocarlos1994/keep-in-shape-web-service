@@ -21,32 +21,31 @@ import org.hibernate.annotations.GenericGenerator;
 import br.com.keepinshape.domain.activities.Activity;
 
 /**
- * A <code>Exercise</code> representa um
- * exercicio dentro da aplicacao.
+ * A <code>Exercise</code> representa um exercicio dentro da aplicacao.
  *
  * @author Joao Batista
  * @version 1.0 06/02/2017
  */
 @Entity
 public class Exercise {
-	
+
 	@Id
 	@Column(name = "id", columnDefinition = "serial")
 	@GeneratedValue(generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
 	private Long id;
-	
+
 	private final String name;
-	
+
 	private double weight;
-	
+
 	private int quantity;
-	
+
 	private double points;
-	
+
 	@ManyToMany(mappedBy = "exercises")
 	private final List<Activity> activities;
-	
+
 	private Exercise(final Builder builder) {
 		this.name = builder.name;
 		this.weight = builder.weight;
@@ -54,12 +53,13 @@ public class Exercise {
 		this.points = builder.points;
 		this.activities = new ArrayList<>();
 	}
-	
+
+	@Deprecated
 	private Exercise() {
 		this.name = null;
 		this.activities = null;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -83,29 +83,30 @@ public class Exercise {
 	public double getPoints() {
 		return points;
 	}
-	
-	public void addActivity(final Activity activity) {
+
+	public Activity addActivity(final Activity activity) {
 		if (!activities.contains(activity) && activity != null) {
 			this.activities.add(activity);
+			return activity;
 		} else {
 			throw new IllegalArgumentException("Activity is invalid");
 		}
 	}
 
 	public static class Builder {
-		
+
 		private final String name;
 		private double weight;
 		private int quantity;
 		private double points;
-			
+
 		public Builder(final String name) {
 			if (name == null) {
 				throw new NullPointerException("Name is null");
 			}
 			this.name = name;
-		}		
-		
+		}
+
 		public Builder weight(final double weight) {
 			if (weight <= 0) {
 				throw new IllegalArgumentException("Weight is invalid");
@@ -113,7 +114,7 @@ public class Exercise {
 			this.weight = weight;
 			return this;
 		}
-		
+
 		public Builder quantity(final int quantity) {
 			if (quantity <= 0) {
 				throw new IllegalArgumentException("Quantity is invalid");
@@ -121,8 +122,7 @@ public class Exercise {
 			this.quantity = quantity;
 			return this;
 		}
-		
-		
+
 		public Builder points(final double points) {
 			if (points <= 0) {
 				throw new IllegalArgumentException("Points is invalid");
@@ -130,7 +130,7 @@ public class Exercise {
 			this.points = points;
 			return this;
 		}
-		
+
 		public Exercise build() {
 			return new Exercise(this);
 		}
@@ -172,7 +172,5 @@ public class Exercise {
 			return false;
 		return true;
 	}
-	
-	
-	
+
 }

@@ -54,7 +54,7 @@ public class ExerciseApplicationLayerImplTest {
 	@Test
 	public void saveExercise() {
 		final List<Exercise> exercises = new LinkedList<>();
-		final Exercise exercise = new Exercise.Builder("Supino Test Save").weight(50).quantity(2).points(70).build();
+		final Exercise exercise = new Exercise.Builder("Supino Test Save").weight(50l).quantity(2).points(70l).build();
 		when(exerciseRepository.findAll()).thenReturn(exercises);
 		when(exerciseRepository.save(any(Exercise.class))).thenReturn(exercise);
 		
@@ -68,7 +68,7 @@ public class ExerciseApplicationLayerImplTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void saveExerciseExists() {
 		
-		final Exercise exercise = new Exercise.Builder("Supino Test Save").weight(50).quantity(2).points(70).build();
+		final Exercise exercise = new Exercise.Builder("Supino Test Save").weight(50l).quantity(2).points(70l).build();
 		when(exerciseRepository.findAll()).thenReturn(Arrays.asList(exercise));
 		
 		exerciseApplicationLayerImpl.saveExercise(exercise);

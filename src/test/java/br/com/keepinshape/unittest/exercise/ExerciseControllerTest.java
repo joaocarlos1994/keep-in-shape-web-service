@@ -51,8 +51,8 @@ public class ExerciseControllerTest {
 
 	@Test
 	public void saveExercise() {
-		final Exercise exercise = new Exercise.Builder("Supino Test").weight(50).quantity(2).points(70).build();
-		final Exercise exerciseSaved = new Exercise.Builder("Supino Test").weight(50).quantity(2).points(70).build();
+		final Exercise exercise = new Exercise.Builder("Supino Test").weight(50l).quantity(2).points(70l).build();
+		final Exercise exerciseSaved = new Exercise.Builder("Supino Test").weight(50l).quantity(2).points(70l).build();
 		exerciseSaved.setId(1l);
 
 		final ExerciseWrapper exerciseWrapper = new ExerciseWrapper(exercise);
@@ -81,7 +81,7 @@ public class ExerciseControllerTest {
 	@Test
 	public void deleteExercise() throws Exception {
 
-		final ResponseEntity<ExerciseWrapper> reponseEntity = exerciseController.delete(1l);
+		final ResponseEntity<Class<?>> reponseEntity = exerciseController.delete(1l);
 
 		assertEquals(200, reponseEntity.getStatusCodeValue());
 		verify(exerciseApplicationLayerImpl, times(1)).deleteExercise(1l);

@@ -62,9 +62,8 @@ public class ExerciseController {
 	 * @return ResponseEntity<ExerciseWrapper> com um status http.
 	 * */
 	@DeleteMapping(value = "/exercise/{id}")
-	public ResponseEntity<ExerciseWrapper> delete(@PathVariable("id") final Long idExercise) {
+	public ResponseEntity<Class<?>> delete(@PathVariable("id") final Long idExercise) {
 		exerciseApplicationLayer.deleteExercise(idExercise);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(Void.TYPE, HttpStatus.OK);
 	}
-	
 }

@@ -39,9 +39,9 @@ public class JsonUtils {
 			final JsonNode rootNode = new ObjectMapper().readTree(result);
 			final JsonNode node = rootNode.findValue(nodeFind);
 			return node;
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (final IOException e) {
+			final String a = e.getMessage() + "Json: " + result;
+			throw new RuntimeException(a);
 		}
-		throw new RuntimeException();
 	}
 }

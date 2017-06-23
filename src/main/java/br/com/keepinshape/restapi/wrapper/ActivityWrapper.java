@@ -63,4 +63,8 @@ public class ActivityWrapper {
 	public double totalPoints() {
 		return activity.totalPoints();
 	}
+	
+	public boolean hasActivity() {
+		return !(this.activity == null);
+	}
 }

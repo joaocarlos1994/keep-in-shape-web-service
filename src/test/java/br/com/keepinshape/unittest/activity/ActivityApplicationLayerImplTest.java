@@ -136,7 +136,7 @@ public class ActivityApplicationLayerImplTest {
 	@Test
 	public void testDelteActivityExercise() {
 		
-		final Exercise exercise = new Exercise.Builder("Supino").weight(50).quantity(2).points(70).build();
+		final Exercise exercise = new Exercise.Builder("Supino").weight(50l).quantity(2).points(70l).build();
 		exercise.setId(1l);
 		
 		final Activity activity = Activity.valueOf("Treino A");

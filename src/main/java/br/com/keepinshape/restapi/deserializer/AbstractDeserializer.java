@@ -41,9 +41,9 @@ public abstract class AbstractDeserializer<T> extends JsonDeserializer<T> {
 		return null;
 	}
 	
-	protected Double getDouble(final String field, final JsonNode node) {
+	protected Long getDouble(final String field, final JsonNode node) {
 		if (node.has(field)) {
-			return node.get(field).asDouble();
+			return node.get(field).asLong();
 		}
 		return null;
 	}

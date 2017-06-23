@@ -8,6 +8,7 @@
 package br.com.keepinshape.integrationtest.exercise;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -60,7 +61,7 @@ public class ExerciseControllerTest {
 
 	@Test
 	public void testPostNewExercise() throws Exception {
-		final Exercise exercise = new Exercise.Builder("Supino Test Save").weight(30).quantity(3).points(50).build();
+		final Exercise exercise = new Exercise.Builder("Supino Test Save").weight(30l).quantity(3).points(50l).build();
 		final String result = this.mockMvc.perform(post("/rest/exercise")
 				.content(JsonUtils.convertObjectToJson(exercise)).contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andReturn().getResponse().getContentAsString();
@@ -71,10 +72,74 @@ public class ExerciseControllerTest {
 		assertEquals(exercise.getPoints(), JsonUtils.getNode(result, "points").asDouble(), 0);
 	}
 
-	@Test(expected = Exception.class)
+	@Test
 	public void testPostNewExerciseDataIncosist() throws Exception {
 		final String exercise = "{\"id\":null,\"name\":null,\"weight\":30.0,\"quantity\":3,\"points\":50.0}";
-		this.mockMvc.perform(post("/rest/exercise").content(exercise).contentType(MediaType.APPLICATION_JSON_VALUE));
+		final MvcResult mvcResult = this.mockMvc.perform(post("/rest/exercise").content(exercise).contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+		final String message = mvcResult.getResponse().getContentAsString();
+		
+		assertEquals(500, mvcResult.getResponse().getStatus());
+		assertEquals("Name is null", message);
+	}
+	
+	@Test
+	public void testPostNewExerciseWithWeightZero() throws Exception {
+		final String exercise = "{\"id\":null,\"name\":\"Supino Save\",\"weight\":0,\"quantity\":3,\"points\":50.0}";
+		final MvcResult mvcResult = this.mockMvc.perform(post("/rest/exercise").content(exercise).contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+		final String message = mvcResult.getResponse().getContentAsString();
+		
+		assertEquals(500, mvcResult.getResponse().getStatus());
+		assertEquals("Weight is invalid", message);
+	}
+	
+	@Test
+	public void testPostNewExerciseWithWeightNegative() throws Exception {
+		final String exercise = "{\"id\":null,\"name\":\"Supino Save\",\"weight\":-1,\"quantity\":3,\"points\":50.0}";
+		final MvcResult mvcResult = this.mockMvc.perform(post("/rest/exercise").content(exercise).contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+		final String message = mvcResult.getResponse().getContentAsString();
+		
+		assertEquals(500, mvcResult.getResponse().getStatus());
+		assertEquals("Weight is invalid", message);
+	}
+	
+	@Test
+	public void testPostNewExerciseWithQuantityZero() throws Exception {
+		final String exercise = "{\"id\":null,\"name\":\"Supino Save\",\"weight\":30.0,\"quantity\":0,\"points\":50.0}";
+		final MvcResult mvcResult = this.mockMvc.perform(post("/rest/exercise").content(exercise).contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+		final String message = mvcResult.getResponse().getContentAsString();
+		
+		assertEquals(500, mvcResult.getResponse().getStatus());
+		assertEquals("Quantity is invalid", message);
+	}
+	
+	@Test
+	public void testPostNewExerciseWithQuantityNegative() throws Exception {
+		final String exercise = "{\"id\":null,\"name\":\"Supino Save\",\"weight\":30.0,\"quantity\":-1,\"points\":50.0}";
+		final MvcResult mvcResult = this.mockMvc.perform(post("/rest/exercise").content(exercise).contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+		final String message = mvcResult.getResponse().getContentAsString();
+		
+		assertEquals(500, mvcResult.getResponse().getStatus());
+		assertEquals("Quantity is invalid", message);
+	}
+	
+	@Test
+	public void testPostNewExerciseWithPointsZero() throws Exception {
+		final String exercise = "{\"id\":null,\"name\":\"Supino Save\",\"weight\":30.0,\"quantity\":3,\"points\":0}";
+		final MvcResult mvcResult = this.mockMvc.perform(post("/rest/exercise").content(exercise).contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+		final String message = mvcResult.getResponse().getContentAsString();
+		
+		assertEquals(500, mvcResult.getResponse().getStatus());
+		assertEquals("Points is invalid", message);
+	}
+	
+	@Test
+	public void testPostNewExerciseWithPointsNegative() throws Exception {
+		final String exercise = "{\"id\":null,\"name\":\"Supino Save\",\"weight\":30.0,\"quantity\":3,\"points\":-1}";
+		final MvcResult mvcResult = this.mockMvc.perform(post("/rest/exercise").content(exercise).contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+		final String message = mvcResult.getResponse().getContentAsString();
+		
+		assertEquals(500, mvcResult.getResponse().getStatus());
+		assertEquals("Points is invalid", message);
 	}
 
 	@Test
@@ -82,7 +147,7 @@ public class ExerciseControllerTest {
 
 		final String getResult = this.mockMvc.perform(get("/springDataExercise/2")).andReturn().getResponse()
 				.getContentAsString();
-		final Exercise exercise = new Exercise.Builder("TESTE UPDATE EXERCISE").weight(70).quantity(2).points(100)
+		final Exercise exercise = new Exercise.Builder("TESTE UPDATE EXERCISE").weight(70l).quantity(2).points(100l)
 				.build();
 		exercise.setId(new Long(2L));
 		final String postResult = this.mockMvc.perform(post("/rest/exercise")
@@ -99,11 +164,16 @@ public class ExerciseControllerTest {
 		assertEquals(exercise.getPoints(), JsonUtils.getNode(postResult, "points").asDouble(), 0);
 	}
 
-	@Test(expected = Exception.class)
+	@Test
 	public void testPostExerciseExistsDataIncosist() throws Exception {
 		final String exercise = "{\"id\":1,\"name\":null,\"weight\":50.0,\"quantity\":2,\"points\":50.0}";
-		this.mockMvc.perform(post("/rest/exercise").content(JsonUtils.convertObjectToJson(exercise))
-				.contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn().getResponse().getContentAsString();
+		final MvcResult mvcResult = this.mockMvc.perform(post("/rest/exercise").content(JsonUtils.convertObjectToJson(exercise))
+				.contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+		
+		final String message = mvcResult.getResponse().getContentAsString();
+		
+		assertEquals(500, mvcResult.getResponse().getStatus());
+		assertEquals("Name is null", message);
 	}
 
 	@Test
@@ -118,27 +188,52 @@ public class ExerciseControllerTest {
 		assertEquals(30, JsonUtils.getNode(getResult, "points").asDouble(), 0);
 	}
 
-	@Test(expected = Exception.class)
+	@Test
 	public void testPostExerciseExists() throws Exception {
-		final Exercise exercise = new Exercise.Builder("TESTE").weight(30).quantity(3).points(30).build();
-		this.mockMvc.perform(post("/rest/exercise").content(JsonUtils.convertObjectToJson(exercise))
-				.contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn().getResponse().getContentAsString();
+		final Exercise exercise = new Exercise.Builder("TESTE").weight(30l).quantity(3).points(30l).build();
+		final MvcResult mvcResult = this.mockMvc.perform(post("/rest/exercise")
+				.content(JsonUtils.convertObjectToJson(exercise)).contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andReturn();
+		final String message = mvcResult.getResponse().getContentAsString();
+
+		assertEquals(500, mvcResult.getResponse().getStatus());
+		assertEquals("Already exists exercise", message);
 	}
 
 	@Test
 	public void testGetExerciseNotFund() throws Exception {
-		final MvcResult getResult = this.mockMvc.perform(get("/springDataExercise/100")).andReturn();
-		assertEquals(404, getResult.getResponse().getStatus());
+		final MvcResult mvcResult = this.mockMvc.perform(get("/springDataExercise/100")).andReturn();
+		assertEquals(404, mvcResult.getResponse().getStatus());
 	}
 
 	@Test
 	public void testDeleteExercise() throws Exception {
-		final MvcResult getResult = this.mockMvc.perform(delete("/rest/exercise/3")).andReturn();
-		assertEquals(200, getResult.getResponse().getStatus());
+		final MvcResult mvcResult = this.mockMvc.perform(delete("/rest/exercise/3")).andReturn();
+		final String messageBody = mvcResult.getResponse().getContentAsString();
+		final String message = this.mockMvc.perform(get("/springDataExercise")).andReturn().getResponse()
+				.getContentAsString();
+		
+		assertEquals(200, mvcResult.getResponse().getStatus());
+		assertEquals("\"void\"", messageBody);
+		assertNotNull(messageBody);
+		assertEquals(2, JsonUtils.getNode(message, "totalElements").asLong());
 	}
 
-	@Test(expected = Exception.class)
+	@Test
 	public void testDeleteExerciseNotFound() throws Exception {
-		this.mockMvc.perform(delete("/rest/exercise/0")).andReturn();
+		final MvcResult mvcResult = this.mockMvc.perform(delete("/rest/exercise/0")).andReturn();
+		final String message = mvcResult.getResponse().getContentAsString();
+
+		assertEquals(500, mvcResult.getResponse().getStatus());
+		assertEquals("Id is invalid", message);
+	}
+
+	@Test
+	public void testDeleteExerciseNotFoundWithIdNegative() throws Exception {
+		final MvcResult mvcResult = this.mockMvc.perform(delete("/rest/exercise/-1")).andReturn();
+		final String message = mvcResult.getResponse().getContentAsString();
+
+		assertEquals(500, mvcResult.getResponse().getStatus());
+		assertEquals("Id is invalid", message);
 	}
 }

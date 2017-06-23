@@ -79,9 +79,9 @@ public class ActivityController {
 	 * @return ResponseEntity<ActivityWrapper> com um status http.
 	 * */
 	@DeleteMapping(value = "/activity/{id}")
-	public ResponseEntity<ActivityWrapper> delete(@PathVariable("id") final Long id) {
+	public ResponseEntity<Class<?>> delete(@PathVariable("id") final Long id) {
 		activityApplicationLayer.deleteActivity(id);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(Void.TYPE, HttpStatus.OK);
 	}
 	
 	
@@ -94,8 +94,8 @@ public class ActivityController {
 	 * @return ResponseEntity<ActivityWrapper> com um status http.
 	 * */
 	@DeleteMapping(value = "/activity/{id}/exercise/{idExercise}")
-	public ResponseEntity<ActivityWrapper> deleteExercise(@PathVariable("id") final Long id, @PathVariable("idExercise") final Long idExercise) {
+	public ResponseEntity<Class<?>> deleteExercise(@PathVariable("id") final Long id, @PathVariable("idExercise") final Long idExercise) {
 		activityApplicationLayer.deleteActivityExercise(id, idExercise);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(Void.TYPE, HttpStatus.OK);
 	}
 }

@@ -47,12 +47,12 @@ public class ActivityTest {
 	@Test
 	public void testCreateActivityWithExercise() {
 		
-		final Exercise exercise = new Exercise.Builder("Supino").weight(30).quantity(3).points(30).build();
+		final Exercise exercise = new Exercise.Builder("Supino").weight(30l).quantity(3).points(30l).build();
 		final Activity activity = Activity.valueOf("Treino A");
 		final Exercise exerciseAddActivity = activity.addExercise(exercise);
 		
 		assertEquals("Treino A", activity.getName());
-		assertEquals(30, activity.totalPoints(), 0);
+		assertEquals(30l, activity.totalPoints(), 0);
 		assertEquals(1, activity.getExercises().size(), 0);
 		assertEquals("Supino", exerciseAddActivity.getName());
 		assertEquals(30, exerciseAddActivity.getWeight(), 0);
@@ -63,8 +63,8 @@ public class ActivityTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreateActivityWithExerciseDuplicated() {
 		
-		final Exercise exercise = new Exercise.Builder("Supino").weight(30).quantity(3).points(30).build();
-		final Exercise exerciseSame = new Exercise.Builder("Supino").weight(30).quantity(3).points(30).build();
+		final Exercise exercise = new Exercise.Builder("Supino").weight(30l).quantity(3).points(30l).build();
+		final Exercise exerciseSame = new Exercise.Builder("Supino").weight(30l).quantity(3).points(30l).build();
 		
 		final Activity activity = Activity.valueOf("Treino A");
 		activity.addExercise(exercise);
@@ -81,12 +81,12 @@ public class ActivityTest {
 	@Test
 	public void testCreateActivityWithExerciseAndRemoveExercise() {
 		
-		final Exercise exercise = new Exercise.Builder("Supino").weight(30).quantity(3).points(30).build();
+		final Exercise exercise = new Exercise.Builder("Supino").weight(30l).quantity(3).points(30l).build();
 		final Activity activity = Activity.valueOf("Treino A");
 		final Exercise exerciseAddInActivity = activity.addExercise(exercise);
 		
 		assertEquals("Treino A", activity.getName());
-		assertEquals(30, activity.totalPoints(), 0);
+		assertEquals(30l, activity.totalPoints(), 0);
 		assertEquals(1, activity.getExercises().size(), 0);
 		assertEquals("Supino", exerciseAddInActivity.getName());
 		assertEquals(30, exerciseAddInActivity.getWeight(), 0);
@@ -102,8 +102,8 @@ public class ActivityTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreateActivityAndRemoveExerciseNotExists() {
 		
-		final Exercise exercise = new Exercise.Builder("Supino").weight(30).quantity(3).points(30).build();
-		final Exercise exerciseRemove = new Exercise.Builder("Supino Remove").weight(35).quantity(3).points(40).build();
+		final Exercise exercise = new Exercise.Builder("Supino").weight(30l).quantity(3).points(30l).build();
+		final Exercise exerciseRemove = new Exercise.Builder("Supino Remove").weight(35l).quantity(3).points(40l).build();
 		
 		final Activity activity = Activity.valueOf("Treino A");
 		activity.addExercise(exercise);

@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.keepinshape.domain.activities.Activity;
 import br.com.keepinshape.domain.activities.ActivityRepository;
@@ -38,6 +39,7 @@ public class ActivityApplicationLayerImpl implements ActivityApplicationLayer {
 		this.exerciseRepository = exerciseRepository;
 	}
 
+	@Transactional
 	@Override
 	public Activity saveActivity(final Activity activity) {
 		final List<Activity> allActivity = activityRepository.findAll();
@@ -55,6 +57,7 @@ public class ActivityApplicationLayerImpl implements ActivityApplicationLayer {
 		throw new IllegalArgumentException("Id Activity is invalid");
 	}
 
+	@Transactional
 	@Override
 	public void deleteActivity(final Long idActivity) {
 		if (idActivity != null && idActivity.longValue() > 0L) {
@@ -64,9 +67,10 @@ public class ActivityApplicationLayerImpl implements ActivityApplicationLayer {
 		}
 	}
 
+	@Transactional
 	@Override
 	public void deleteActivityExercise(final Long id, final Long idExercise) {
-		if (idExercise != null && idExercise > 0L) {
+		if (idExercise != null && idExercise.longValue() > 0L) {
 			final Exercise exerciseExclued = exerciseRepository.findOne(idExercise);
 			final Activity activity = findById(id);
 			activity.removeExercise(exerciseExclued);

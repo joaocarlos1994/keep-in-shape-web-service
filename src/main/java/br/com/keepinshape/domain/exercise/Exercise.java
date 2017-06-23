@@ -7,18 +7,12 @@
 
 package br.com.keepinshape.domain.exercise;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 
 import org.hibernate.annotations.GenericGenerator;
-
-import br.com.keepinshape.domain.activities.Activity;
 
 /**
  * A <code>Exercise</code> representa um exercicio dentro da aplicacao.
@@ -37,27 +31,22 @@ public class Exercise {
 
 	private final String name;
 
-	private double weight;
+	private Long weight;
 
-	private int quantity;
+	private Integer quantity;
 
-	private double points;
-
-	@ManyToMany(mappedBy = "exercises")
-	private final List<Activity> activities;
+	private Long points;
 
 	private Exercise(final Builder builder) {
 		this.name = builder.name;
 		this.weight = builder.weight;
 		this.quantity = builder.quantity;
 		this.points = builder.points;
-		this.activities = new ArrayList<>();
 	}
 
 	@Deprecated
 	private Exercise() {
 		this.name = null;
-		this.activities = null;
 	}
 
 	public Long getId() {
@@ -72,33 +61,24 @@ public class Exercise {
 		return name;
 	}
 
-	public double getWeight() {
+	public Long getWeight() {
 		return weight;
 	}
 
-	public int getQuantity() {
+	public Integer getQuantity() {
 		return quantity;
 	}
 
-	public double getPoints() {
+	public Long getPoints() {
 		return points;
-	}
-
-	public Activity addActivity(final Activity activity) {
-		if (!activities.contains(activity) && activity != null) {
-			this.activities.add(activity);
-			return activity;
-		} else {
-			throw new IllegalArgumentException("Activity is invalid");
-		}
 	}
 
 	public static class Builder {
 
 		private final String name;
-		private double weight;
-		private int quantity;
-		private double points;
+		private Long weight;
+		private Integer quantity;
+		private Long points;
 
 		public Builder(final String name) {
 			if (name == null) {
@@ -107,24 +87,24 @@ public class Exercise {
 			this.name = name;
 		}
 
-		public Builder weight(final double weight) {
-			if (weight <= 0) {
+		public Builder weight(final Long weight) {
+			if (weight.longValue() <= 0) {
 				throw new IllegalArgumentException("Weight is invalid");
 			}
 			this.weight = weight;
 			return this;
 		}
 
-		public Builder quantity(final int quantity) {
-			if (quantity <= 0) {
+		public Builder quantity(final Integer quantity) {
+			if (quantity.intValue() <= 0) {
 				throw new IllegalArgumentException("Quantity is invalid");
 			}
 			this.quantity = quantity;
 			return this;
 		}
 
-		public Builder points(final double points) {
-			if (points <= 0) {
+		public Builder points(final Long points) {
+			if (points.longValue() <= 0) {
 				throw new IllegalArgumentException("Points is invalid");
 			}
 			this.points = points;
@@ -141,12 +121,9 @@ public class Exercise {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		long temp;
-		temp = Double.doubleToLongBits(points);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + quantity;
-		temp = Double.doubleToLongBits(weight);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((points == null) ? 0 : points.hashCode());
+		result = prime * result + ((quantity == null) ? 0 : quantity.hashCode());
+		result = prime * result + ((weight == null) ? 0 : weight.hashCode());
 		return result;
 	}
 
@@ -164,13 +141,21 @@ public class Exercise {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (Double.doubleToLongBits(points) != Double.doubleToLongBits(other.points))
+		if (points == null) {
+			if (other.points != null)
+				return false;
+		} else if (!points.equals(other.points))
 			return false;
-		if (quantity != other.quantity)
+		if (quantity == null) {
+			if (other.quantity != null)
+				return false;
+		} else if (!quantity.equals(other.quantity))
 			return false;
-		if (Double.doubleToLongBits(weight) != Double.doubleToLongBits(other.weight))
+		if (weight == null) {
+			if (other.weight != null)
+				return false;
+		} else if (!weight.equals(other.weight))
 			return false;
 		return true;
 	}
-
 }

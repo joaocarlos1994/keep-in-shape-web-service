@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.keepinshape.domain.exercise.Exercise;
 import br.com.keepinshape.domain.exercise.ExerciseRepository;
@@ -34,6 +35,7 @@ public class ExerciseApplicationLayerImpl implements ExerciseApplicationLayer {
 		this.exerciseRepository = exerciseRepository;
 	}
 
+	@Transactional
 	@Override
 	public Exercise saveExercise(final Exercise exercise) {
 		final List<Exercise> allExercise = exerciseRepository.findAll();
@@ -43,6 +45,7 @@ public class ExerciseApplicationLayerImpl implements ExerciseApplicationLayer {
 		throw new IllegalArgumentException("Already exists exercise");
 	}
 
+	@Transactional
 	@Override
 	public void deleteExercise(final Long idExercise) {
 		if (idExercise.longValue() > 0L) {

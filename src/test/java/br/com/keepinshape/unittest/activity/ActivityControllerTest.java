@@ -120,7 +120,7 @@ public class ActivityControllerTest {
 	@Test
 	public void testDeleteActivityById() {		
 		
-		final ResponseEntity<ActivityWrapper> reponseEntity = activityController.delete(1l);
+		final ResponseEntity<Class<?>> reponseEntity = activityController.delete(1l);
 		assertEquals(200, reponseEntity.getStatusCodeValue());
 		verify(activityApplicationLayerImpl, times(1)).deleteActivity(1l);
 	}
@@ -143,7 +143,7 @@ public class ActivityControllerTest {
 	@Test
 	public void testActivityDeleteExercise() {		
 		
-		final ResponseEntity<ActivityWrapper> reponseEntity = activityController.deleteExercise(1l, 1l);
+		final ResponseEntity<Class<?>> reponseEntity = activityController.deleteExercise(1l, 1l);
 		assertEquals(200, reponseEntity.getStatusCodeValue());
 		verify(activityApplicationLayerImpl, times(1)).deleteActivityExercise(1l, 1l);
 	}

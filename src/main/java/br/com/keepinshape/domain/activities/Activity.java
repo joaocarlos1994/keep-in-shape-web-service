@@ -16,6 +16,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
@@ -24,49 +26,51 @@ import org.hibernate.annotations.GenericGenerator;
 import br.com.keepinshape.domain.exercise.Exercise;
 
 /**
- * A <code>Activity</code> representa uma
- * atividade dentro do dominio, assim essa 
- * atividade contem uma lista de exercicio
- * e seu respectivo dia de execucao.
+ * A <code>Activity</code> representa uma atividade dentro do dominio, assim
+ * essa atividade contem uma lista de exercicio e seu respectivo dia de
+ * execucao.
  *
  * @author Joao Batista
  * @version 1.0 06/02/2017
  */
 @Entity
 public class Activity {
-	
+
 	@Id
 	@Column(name = "id", columnDefinition = "serial")
 	@GeneratedValue(generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
 	private Long id;
-	
+
 	private final String name;
-	
+
 	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "activity_exercise", 
+	joinColumns = @JoinColumn(name = "activities_id", referencedColumnName = "id"), 
+	inverseJoinColumns = @JoinColumn(name = "exercises_id", referencedColumnName = "id"))
 	private final List<Exercise> exercises;
-	
+
 	private Weekday weekday;
-	
+
 	@Transient
-	private double allPoints;
-	
+	private Long allPoints;
+
 	private Activity(final String name) {
 		this.name = validateName(name);
 		this.exercises = new ArrayList<>();
 	}
-	
+
 	@Deprecated
 	private Activity() {
 		this.name = null;
 		this.exercises = null;
 	}
-	
+
 	public static Activity valueOf(final String name) {
 		final Activity activities = new Activity(name);
 		return activities;
 	}
-	
+
 	public Exercise addExercise(final Exercise exercise) {
 		if (exercise != null && (!exercises.contains(exercise))) {
 			this.exercises.add(exercise);
@@ -74,7 +78,7 @@ public class Activity {
 		}
 		throw new IllegalArgumentException("Already exists exercise or exercise invalid");
 	}
-	
+
 	public void removeExercise(final Exercise exercise) {
 		if (exercise != null && exercises.contains(exercise)) {
 			this.exercises.remove(exercise);
@@ -82,24 +86,20 @@ public class Activity {
 			throw new IllegalArgumentException("No exists exercise or exercise invalid");
 		}
 	}
-	
-	public double totalPoints() {
-		double points = 0;
-		for (final Exercise exercise : exercises) {
-			points += exercise.getPoints();
-		}
-		return points;
+
+	public Long totalPoints() {
+		return exercises.stream().mapToLong(Exercise::getPoints).sum();
+
 	}
 
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(final Long id) {
 		this.id = id;
 	}
-	
-	
+
 	public String getName() {
 		return name;
 	}
@@ -107,7 +107,7 @@ public class Activity {
 	public Weekday getWeekday() {
 		return weekday;
 	}
-	
+
 	public void setWeekday(final Weekday weekday) {
 		this.weekday = weekday;
 	}
@@ -115,7 +115,7 @@ public class Activity {
 	public List<Exercise> getExercises() {
 		return Collections.unmodifiableList(exercises);
 	}
-	
+
 	private String validateName(final String name) {
 		if (name != null) {
 			return name;
@@ -127,9 +127,7 @@ public class Activity {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(allPoints);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + (int) (allPoints ^ (allPoints >>> 32));
 		result = prime * result + ((exercises == null) ? 0 : exercises.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((weekday == null) ? 0 : weekday.hashCode());
@@ -145,7 +143,7 @@ public class Activity {
 		if (getClass() != obj.getClass())
 			return false;
 		Activity other = (Activity) obj;
-		if (Double.doubleToLongBits(allPoints) != Double.doubleToLongBits(other.allPoints))
+		if (allPoints != other.allPoints)
 			return false;
 		if (exercises == null) {
 			if (other.exercises != null)

@@ -68,7 +68,10 @@ public class ActivityControllerTest {
 		final ResponseEntity<ActivityWrapper> reponseEntity = activityController.save(activityWrapper);
 		final ActivityWrapper activityWrapperResponse = reponseEntity.getBody();
 
+		
 		assertEquals(201, reponseEntity.getStatusCodeValue());
+		assertEquals(true, activityWrapper.hasActivity());
+		assertEquals(Activity.class, activityWrapper.getActivity().getClass());
 		assertEquals(1, activityWrapperResponse.getId(), 0);
 		assertEquals("Treino A", activityWrapperResponse.getName());
 		assertEquals(Weekday.SEGUNDA.name(), activityWrapperResponse.getWeekday());
@@ -98,6 +101,8 @@ public class ActivityControllerTest {
 		final ActivityWrapper activityWrapperResponse = reponseEntity.getBody();
 
 		assertEquals(200, reponseEntity.getStatusCodeValue());
+		assertEquals(true, activityWrapperResponse.hasActivity());
+		assertEquals(Activity.class, activityWrapperResponse.getActivity().getClass());
 		assertEquals(1, activityWrapperResponse.getId(), 0);
 		assertEquals("Treino A", activityWrapperResponse.getName());
 		assertEquals(Weekday.SEGUNDA.name(), activityWrapperResponse.getWeekday());
@@ -119,7 +124,6 @@ public class ActivityControllerTest {
 	
 	@Test
 	public void testDeleteActivityById() {		
-		
 		final ResponseEntity<Class<?>> reponseEntity = activityController.delete(1l);
 		assertEquals(200, reponseEntity.getStatusCodeValue());
 		verify(activityApplicationLayerImpl, times(1)).deleteActivity(1l);
@@ -142,7 +146,6 @@ public class ActivityControllerTest {
 	
 	@Test
 	public void testActivityDeleteExercise() {		
-		
 		final ResponseEntity<Class<?>> reponseEntity = activityController.deleteExercise(1l, 1l);
 		assertEquals(200, reponseEntity.getStatusCodeValue());
 		verify(activityApplicationLayerImpl, times(1)).deleteActivityExercise(1l, 1l);
@@ -150,7 +153,6 @@ public class ActivityControllerTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testActivityDeleteExerciseInvalidIdActivity() {		
-		
 		doThrow(new IllegalArgumentException()).when(activityApplicationLayerImpl).deleteActivityExercise(-1l, 1l);
 		activityController.deleteExercise(-1l, 1l);
 		verify(activityApplicationLayerImpl, times(1)).deleteActivityExercise(-1l, 1l);
@@ -158,7 +160,6 @@ public class ActivityControllerTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testActivityDeleteExerciseNullIdActivity() {		
-		
 		doThrow(new IllegalArgumentException()).when(activityApplicationLayerImpl).deleteActivityExercise(null, 1l);
 		activityController.deleteExercise(null, 1l);
 		verify(activityApplicationLayerImpl, times(1)).deleteActivityExercise(null, 1l);
@@ -166,7 +167,6 @@ public class ActivityControllerTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testActivityDeleteExerciseInvalIdExerciseId() {		
-		
 		doThrow(new IllegalArgumentException()).when(activityApplicationLayerImpl).deleteActivityExercise(1l, -1l);
 		activityController.deleteExercise(1l, -1l);
 		verify(activityApplicationLayerImpl, times(1)).deleteActivityExercise(1l, -1l);
@@ -174,7 +174,6 @@ public class ActivityControllerTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testActivityDeleteExerciseNullIdExercise() {		
-		
 		doThrow(new IllegalArgumentException()).when(activityApplicationLayerImpl).deleteActivityExercise(1l, null);
 		activityController.deleteExercise(1l, null);
 		verify(activityApplicationLayerImpl, times(1)).deleteActivityExercise(1l, null);

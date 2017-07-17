@@ -30,6 +30,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.NullNode;
 
 import br.com.keepinshape.KeepinshapeWebserviceApplication;
 import br.com.keepinshape.config.DbEnvironment;
@@ -79,7 +80,7 @@ public class ActivityControllerTest {
 		final String result = this.mockMvc.perform(get("/springDataActivity/" + id)).andReturn().getResponse()
 				.getContentAsString();
 
-		assertEquals(null, JsonUtils.getNode(result, "id"));
+		assertEquals(NullNode.instance, JsonUtils.getNode(activityJson, "id"));
 		assertEquals(newActvity.getName(), JsonUtils.getNode(result, "name").asText());
 		assertEquals(newActvity.getName(), JsonUtils.getNode(result, "name").asText());
 		assertEquals(newActvity.getWeekday().name(), JsonUtils.getNode(result, "weekday").asText());
@@ -87,6 +88,7 @@ public class ActivityControllerTest {
 
 	@Test
 	public void testPostUpateActivityNothingExercise() throws Exception {
+		
 		final Activity newActvity = Activity.valueOf("TESTE ACTIVITY");
 		newActvity.setId(new Long(1L));
 		newActvity.setWeekday(Weekday.TERÇA);
@@ -108,7 +110,7 @@ public class ActivityControllerTest {
 
 		final Activity newActvity = Activity.valueOf("Test Save with exercise");
 		newActvity.setWeekday(Weekday.SEXTA);
-		newActvity.addExercise(exercise);
+		final Exercise addExercise = newActvity.addExercise(exercise);
 
 		final String response = this.mockMvc.perform(post("/rest/activity")
 				.content(JsonUtils.convertObjectToJson(new ActivityWrapper(newActvity))).contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -119,6 +121,7 @@ public class ActivityControllerTest {
 		final JsonNode exerciseNodeArray = JsonUtils.getNode(result, "exercises");
 		final JsonNode exerciseNode = exerciseNodeArray.get(0);
 
+		assertNotNull(addExercise);
 		assertEquals(newActvity.getName(), JsonUtils.getNode(result, "name").asText());
 		assertEquals(newActvity.getWeekday().name(), JsonUtils.getNode(result, "weekday").asText());
 		assertEquals(newActvity.totalPoints(), JsonUtils.getNode(result, "totalPoints").asLong(), 0);
@@ -160,8 +163,8 @@ public class ActivityControllerTest {
 		actvity.setId(new Long(2L));
 		actvity.setWeekday(Weekday.TERÇA);
 
-		actvity.addExercise(exercise);
-		actvity.addExercise(exercise2);
+		final Exercise addExercise = actvity.addExercise(exercise);
+		final Exercise addExercise2 = actvity.addExercise(exercise2);
 
 		this.mockMvc.perform(post("/rest/activity").content(JsonUtils.convertObjectToJson(new ActivityWrapper(actvity)))
 				.contentType(MediaType.APPLICATION_JSON_VALUE));
@@ -171,6 +174,8 @@ public class ActivityControllerTest {
 		final JsonNode exerciseNodeOne = exerciseNodeArray.get(0);
 		final JsonNode exerciseNodeTwo = exerciseNodeArray.get(1);
 
+		assertNotNull(addExercise);
+		assertNotNull(addExercise2);
 		assertEquals(actvity.getName(), JsonUtils.getNode(result, "name").asText());
 		assertEquals(actvity.getWeekday().name(), JsonUtils.getNode(result, "weekday").asText());
 		assertEquals(actvity.totalPoints(), JsonUtils.getNode(result, "totalPoints").asLong(), 0);

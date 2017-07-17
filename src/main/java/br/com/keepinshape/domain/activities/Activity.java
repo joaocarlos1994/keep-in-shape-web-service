@@ -89,7 +89,6 @@ public class Activity {
 
 	public Long totalPoints() {
 		return exercises.stream().mapToLong(Exercise::getPoints).sum();
-
 	}
 
 	public Long getId() {
